@@ -15,16 +15,12 @@
  */
 package com.android.quickstep.inputconsumers;
 
-import static com.android.launcher3.logging.StatsLogManager.LAUNCHER_STATE_HOME;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_HOME_GESTURE;
-
 import android.content.Context;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 
 import com.android.launcher3.BaseActivity;
 import com.android.launcher3.BaseDraggingActivity;
-import com.android.launcher3.logger.LauncherAtom;
 import com.android.launcher3.testing.TestLogging;
 import com.android.launcher3.testing.TestProtocol;
 import com.android.launcher3.userevent.nano.LauncherLogProto;
@@ -90,15 +86,15 @@ public class OverviewWithoutFocusInputConsumer implements InputConsumer,
         activity.getUserEventDispatcher().logActionOnContainer(
                 wasFling ? Touch.FLING : Touch.SWIPE, Direction.UP, containerType, pageIndex);
         activity.getUserEventDispatcher().setPreviousHomeGesture(true);
-        activity.getStatsLogManager().logger()
-                .withSrcState(LAUNCHER_STATE_HOME)
-                .withDstState(LAUNCHER_STATE_HOME)
-                .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
-                        .setWorkspace(
-                                LauncherAtom.WorkspaceContainer.newBuilder()
-                                        .setPageIndex(-1))
-                        .build())
-                .log(LAUNCHER_HOME_GESTURE);
+//        activity.getStatsLogManager().logger()
+//                .withSrcState(LAUNCHER_STATE_HOME)
+//                .withDstState(LAUNCHER_STATE_HOME)
+//                .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
+//                        .setWorkspace(
+//                                LauncherAtom.WorkspaceContainer.newBuilder()
+//                                        .setPageIndex(-1))
+//                        .build())
+//                .log(LAUNCHER_HOME_GESTURE);
     }
 
     @Override

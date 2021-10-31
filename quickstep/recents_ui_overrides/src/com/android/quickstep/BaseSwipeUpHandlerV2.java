@@ -15,34 +15,6 @@
  */
 package com.android.quickstep;
 
-import static com.android.launcher3.BaseActivity.INVISIBLE_BY_STATE_HANDLER;
-import static com.android.launcher3.BaseActivity.STATE_HANDLER_INVISIBILITY_FLAGS;
-import static com.android.launcher3.anim.Interpolators.DEACCEL;
-import static com.android.launcher3.anim.Interpolators.LINEAR;
-import static com.android.launcher3.anim.Interpolators.OVERSHOOT_1_2;
-import static com.android.launcher3.config.FeatureFlags.ENABLE_QUICKSTEP_LIVE_TILE;
-import static com.android.launcher3.logging.StatsLogManager.LAUNCHER_STATE_BACKGROUND;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.IGNORE;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_HOME_GESTURE;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_OVERVIEW_GESTURE;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_QUICKSWITCH_LEFT;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_QUICKSWITCH_RIGHT;
-import static com.android.launcher3.util.DefaultDisplay.getSingleFrameMs;
-import static com.android.launcher3.util.SystemUiController.UI_STATE_OVERVIEW;
-import static com.android.quickstep.GestureState.GestureEndTarget.HOME;
-import static com.android.quickstep.GestureState.GestureEndTarget.LAST_TASK;
-import static com.android.quickstep.GestureState.GestureEndTarget.NEW_TASK;
-import static com.android.quickstep.GestureState.GestureEndTarget.RECENTS;
-import static com.android.quickstep.GestureState.STATE_END_TARGET_ANIMATION_FINISHED;
-import static com.android.quickstep.GestureState.STATE_END_TARGET_SET;
-import static com.android.quickstep.GestureState.STATE_RECENTS_SCROLLING_FINISHED;
-import static com.android.quickstep.MultiStateCallback.DEBUG_STATES;
-import static com.android.quickstep.SysUINavigationMode.Mode.TWO_BUTTONS;
-import static com.android.quickstep.util.ShelfPeekAnim.ShelfAnimState.HIDE;
-import static com.android.quickstep.util.ShelfPeekAnim.ShelfAnimState.PEEK;
-import static com.android.quickstep.views.RecentsView.UPDATE_SYSUI_FLAGS_THRESHOLD;
-import static com.android.systemui.shared.system.RemoteAnimationTargetCompat.ACTIVITY_TYPE_HOME;
-
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
@@ -58,8 +30,6 @@ import android.view.View.OnApplyWindowInsetsListener;
 import android.view.ViewTreeObserver.OnDrawListener;
 import android.view.WindowInsets;
 import android.view.animation.Interpolator;
-
-import androidx.annotation.UiThread;
 
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.DeviceProfile;
@@ -94,6 +64,35 @@ import com.android.systemui.shared.system.LatencyTrackerCompat;
 import com.android.systemui.shared.system.RemoteAnimationTargetCompat;
 import com.android.systemui.shared.system.TaskInfoCompat;
 import com.android.systemui.shared.system.TaskStackChangeListener;
+
+import androidx.annotation.UiThread;
+
+import static com.android.launcher3.BaseActivity.INVISIBLE_BY_STATE_HANDLER;
+import static com.android.launcher3.BaseActivity.STATE_HANDLER_INVISIBILITY_FLAGS;
+import static com.android.launcher3.anim.Interpolators.DEACCEL;
+import static com.android.launcher3.anim.Interpolators.LINEAR;
+import static com.android.launcher3.anim.Interpolators.OVERSHOOT_1_2;
+import static com.android.launcher3.config.FeatureFlags.ENABLE_QUICKSTEP_LIVE_TILE;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.IGNORE;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_HOME_GESTURE;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_OVERVIEW_GESTURE;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_QUICKSWITCH_LEFT;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_QUICKSWITCH_RIGHT;
+import static com.android.launcher3.util.DefaultDisplay.getSingleFrameMs;
+import static com.android.launcher3.util.SystemUiController.UI_STATE_OVERVIEW;
+import static com.android.quickstep.GestureState.GestureEndTarget.HOME;
+import static com.android.quickstep.GestureState.GestureEndTarget.LAST_TASK;
+import static com.android.quickstep.GestureState.GestureEndTarget.NEW_TASK;
+import static com.android.quickstep.GestureState.GestureEndTarget.RECENTS;
+import static com.android.quickstep.GestureState.STATE_END_TARGET_ANIMATION_FINISHED;
+import static com.android.quickstep.GestureState.STATE_END_TARGET_SET;
+import static com.android.quickstep.GestureState.STATE_RECENTS_SCROLLING_FINISHED;
+import static com.android.quickstep.MultiStateCallback.DEBUG_STATES;
+import static com.android.quickstep.SysUINavigationMode.Mode.TWO_BUTTONS;
+import static com.android.quickstep.util.ShelfPeekAnim.ShelfAnimState.HIDE;
+import static com.android.quickstep.util.ShelfPeekAnim.ShelfAnimState.PEEK;
+import static com.android.quickstep.views.RecentsView.UPDATE_SYSUI_FLAGS_THRESHOLD;
+import static com.android.systemui.shared.system.RemoteAnimationTargetCompat.ACTIVITY_TYPE_HOME;
 
 /**
  * Handles the navigation gestures when Launcher is the default home activity.
@@ -934,11 +933,11 @@ public abstract class BaseSwipeUpHandlerV2<T extends StatefulActivity<?>, Q exte
                 event = IGNORE;
         }
         ComponentName componentName = mGestureState.getRunningTask().baseActivity;
-        StatsLogManager.newInstance(mContext).logger()
-                .withSrcState(LAUNCHER_STATE_BACKGROUND)
-                .withDstState(StatsLogManager.containerTypeToAtomState(endTarget.containerType))
-                .withItemInfo(getItemInfo(componentName))
-                .log(event);
+//        StatsLogManager.newInstance(mContext).logger()
+//                .withSrcState(LAUNCHER_STATE_BACKGROUND)
+//                .withDstState(StatsLogManager.containerTypeToAtomState(endTarget.containerType))
+//                .withItemInfo(getItemInfo(componentName))
+//                .log(event);
     }
 
     /**

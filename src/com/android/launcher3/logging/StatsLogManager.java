@@ -15,25 +15,15 @@
  */
 package com.android.launcher3.logging;
 
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.IGNORE;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_ALLAPPS_CLOSE_DOWN;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_ALLAPPS_OPEN_UP;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_HOME_GESTURE;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_OVERVIEW_GESTURE;
-
 import android.content.Context;
 
-import androidx.annotation.Nullable;
-
 import com.android.launcher3.R;
-import com.android.launcher3.logger.LauncherAtom.ContainerInfo;
-import com.android.launcher3.logger.LauncherAtom.FromState;
-import com.android.launcher3.logger.LauncherAtom.ToState;
 import com.android.launcher3.model.data.ItemInfo;
-import com.android.launcher3.userevent.LauncherLogProto;
 import com.android.launcher3.util.ResourceBasedOverride;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * Handles the user event logging in R+.
@@ -57,41 +47,41 @@ public class StatsLogManager implements ResourceBasedOverride {
      * Returns proper launcher state enum for {@link StatsLogManager}(to be removed during
      * UserEventDispatcher cleanup)
      */
-    public static int containerTypeToAtomState(int containerType) {
-        switch (containerType) {
-            case LauncherLogProto.ContainerType.ALLAPPS_VALUE:
-                return LAUNCHER_STATE_ALLAPPS;
-            case LauncherLogProto.ContainerType.OVERVIEW_VALUE:
-                return LAUNCHER_STATE_OVERVIEW;
-            case LauncherLogProto.ContainerType.WORKSPACE_VALUE:
-                return LAUNCHER_STATE_HOME;
-            case LauncherLogProto.ContainerType.APP_VALUE:
-                return LAUNCHER_STATE_BACKGROUND;
-        }
-        return LAUNCHER_STATE_UNSPECIFIED;
-    }
+//    public static int containerTypeToAtomState(int containerType) {
+//        switch (containerType) {
+//            case LauncherLogProto.ContainerType.ALLAPPS_VALUE:
+//                return LAUNCHER_STATE_ALLAPPS;
+//            case LauncherLogProto.ContainerType.OVERVIEW_VALUE:
+//                return LAUNCHER_STATE_OVERVIEW;
+//            case LauncherLogProto.ContainerType.WORKSPACE_VALUE:
+//                return LAUNCHER_STATE_HOME;
+//            case LauncherLogProto.ContainerType.APP_VALUE:
+//                return LAUNCHER_STATE_BACKGROUND;
+//        }
+//        return LAUNCHER_STATE_UNSPECIFIED;
+//    }
 
     /**
      * Returns event enum based on the two {@link ContainerType} transition information when swipe
      * gesture happens(to be removed during UserEventDispatcher cleanup).
      */
-    public static EventEnum getLauncherAtomEvent(int startContainerType,
-            int targetContainerType, EventEnum fallbackEvent) {
-        if (startContainerType == LauncherLogProto.ContainerType.WORKSPACE.getNumber()
-                && targetContainerType == LauncherLogProto.ContainerType.WORKSPACE.getNumber()) {
-            return LAUNCHER_HOME_GESTURE;
-        } else if (startContainerType != LauncherLogProto.ContainerType.TASKSWITCHER.getNumber()
-                && targetContainerType == LauncherLogProto.ContainerType.TASKSWITCHER.getNumber()) {
-            return LAUNCHER_OVERVIEW_GESTURE;
-        } else if (startContainerType != LauncherLogProto.ContainerType.ALLAPPS.getNumber()
-                && targetContainerType == LauncherLogProto.ContainerType.ALLAPPS.getNumber()) {
-            return LAUNCHER_ALLAPPS_OPEN_UP;
-        } else if (startContainerType == LauncherLogProto.ContainerType.ALLAPPS.getNumber()
-                && targetContainerType != LauncherLogProto.ContainerType.ALLAPPS.getNumber()) {
-            return LAUNCHER_ALLAPPS_CLOSE_DOWN;
-        }
-        return fallbackEvent; // TODO fix
-    }
+//    public static EventEnum getLauncherAtomEvent(int startContainerType,
+//            int targetContainerType, EventEnum fallbackEvent) {
+//        if (startContainerType == LauncherLogProto.ContainerType.WORKSPACE.getNumber()
+//                && targetContainerType == LauncherLogProto.ContainerType.WORKSPACE.getNumber()) {
+//            return LAUNCHER_HOME_GESTURE;
+//        } else if (startContainerType != LauncherLogProto.ContainerType.TASKSWITCHER.getNumber()
+//                && targetContainerType == LauncherLogProto.ContainerType.TASKSWITCHER.getNumber()) {
+//            return LAUNCHER_OVERVIEW_GESTURE;
+//        } else if (startContainerType != LauncherLogProto.ContainerType.ALLAPPS.getNumber()
+//                && targetContainerType == LauncherLogProto.ContainerType.ALLAPPS.getNumber()) {
+//            return LAUNCHER_ALLAPPS_OPEN_UP;
+//        } else if (startContainerType == LauncherLogProto.ContainerType.ALLAPPS.getNumber()
+//                && targetContainerType != LauncherLogProto.ContainerType.ALLAPPS.getNumber()) {
+//            return LAUNCHER_ALLAPPS_CLOSE_DOWN;
+//        }
+//        return fallbackEvent; // TODO fix
+//    }
 
     public interface EventEnum {
         int getId();
@@ -399,16 +389,16 @@ public class StatsLogManager implements ResourceBasedOverride {
         /**
          * Sets FromState field of log message.
          */
-        default StatsLogger withFromState(FromState fromState) {
-            return this;
-        }
+//        default StatsLogger withFromState(FromState fromState) {
+//            return this;
+//        }
 
         /**
          * Sets ToState field of log message.
          */
-        default StatsLogger withToState(ToState toState) {
-            return this;
-        }
+//        default StatsLogger withToState(ToState toState) {
+//            return this;
+//        }
 
         /**
          * Sets editText field of log message.
@@ -423,9 +413,9 @@ public class StatsLogManager implements ResourceBasedOverride {
          * By default container related fields are derived from {@link ItemInfo}, this method would
          * override those values.
          */
-        default StatsLogger withContainerInfo(ContainerInfo containerInfo) {
-            return this;
-        }
+//        default StatsLogger withContainerInfo(ContainerInfo containerInfo) {
+//            return this;
+//        }
 
         /**
          * Builds the final message and logs it as {@link EventEnum}.

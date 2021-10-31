@@ -16,48 +16,25 @@
 
 package com.android.launcher3.model.data;
 
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_ALL_APPS;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_DESKTOP;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_HOTSEAT;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_HOTSEAT_PREDICTION;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_PREDICTION;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_SEARCH_RESULTS;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_SETTINGS;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_SHORTCUTS;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_TASKFOREGROUND;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_TASKSWITCHER;
-import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_WIDGETS_TRAY;
-import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_APPLICATION;
-import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_APPWIDGET;
-import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_DEEP_SHORTCUT;
-import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_SHORTCUT;
-import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_TASK;
-import static com.android.launcher3.logger.LauncherAtom.ContainerInfo.ContainerCase.CONTAINER_NOT_SET;
-
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Process;
 import android.os.UserHandle;
 
-import androidx.annotation.Nullable;
-
 import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.LauncherSettings.Favorites;
 import com.android.launcher3.Workspace;
-import com.android.launcher3.logger.LauncherAtom;
-import com.android.launcher3.logger.LauncherAtom.AllAppsContainer;
-import com.android.launcher3.logger.LauncherAtom.ContainerInfo;
-import com.android.launcher3.logger.LauncherAtom.PredictionContainer;
-import com.android.launcher3.logger.LauncherAtom.SearchResultContainer;
-import com.android.launcher3.logger.LauncherAtom.SettingsContainer;
-import com.android.launcher3.logger.LauncherAtom.ShortcutsContainer;
-import com.android.launcher3.logger.LauncherAtom.TaskForegroundContainer;
-import com.android.launcher3.logger.LauncherAtom.TaskSwitcherContainer;
+import com.android.launcher3.logger.nano.LauncherAtom;
 import com.android.launcher3.model.ModelWriter;
 import com.android.launcher3.util.ContentWriter;
 
 import java.util.Optional;
+
+import androidx.annotation.Nullable;
+
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_HOTSEAT_PREDICTION;
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_PREDICTION;
 
 /**
  * Represents an item in the launcher.
@@ -261,148 +238,148 @@ public class ItemInfo {
     /**
      * Can be overridden by inherited classes to fill in {@link LauncherAtom.ItemInfo}
      */
-    public void setItemBuilder(LauncherAtom.ItemInfo.Builder builder) {
-    }
+//    public void setItemBuilder(LauncherAtom.ItemInfo.Builder builder) {
+//    }
 
     /**
      * Creates {@link LauncherAtom.ItemInfo} with important fields and parent container info.
      */
-    public LauncherAtom.ItemInfo buildProto() {
-        return buildProto(null);
-    }
+//    public LauncherAtom.ItemInfo buildProto() {
+//        return buildProto(null);
+//    }
 
     /**
      * Creates {@link LauncherAtom.ItemInfo} with important fields and parent container info.
      */
-    public LauncherAtom.ItemInfo buildProto(FolderInfo fInfo) {
-        LauncherAtom.ItemInfo.Builder itemBuilder = getDefaultItemInfoBuilder();
-        Optional<ComponentName> nullableComponent = Optional.ofNullable(getTargetComponent());
-        switch (itemType) {
-            case ITEM_TYPE_APPLICATION:
-                itemBuilder
-                        .setApplication(nullableComponent
-                                .map(component -> LauncherAtom.Application.newBuilder()
-                                        .setComponentName(component.flattenToShortString())
-                                        .setPackageName(component.getPackageName()))
-                                .orElse(LauncherAtom.Application.newBuilder()));
-                break;
-            case ITEM_TYPE_DEEP_SHORTCUT:
-            case ITEM_TYPE_SHORTCUT:
-                itemBuilder
-                        .setShortcut(nullableComponent
-                                .map(component -> LauncherAtom.Shortcut.newBuilder()
-                                        .setShortcutName(component.flattenToShortString()))
-                                .orElse(LauncherAtom.Shortcut.newBuilder()));
-                break;
-            case ITEM_TYPE_APPWIDGET:
-                itemBuilder
-                        .setWidget(nullableComponent
-                                .map(component -> LauncherAtom.Widget.newBuilder()
-                                        .setComponentName(component.flattenToShortString())
-                                        .setPackageName(component.getPackageName()))
-                                .orElse(LauncherAtom.Widget.newBuilder())
-                                .setSpanX(spanX)
-                                .setSpanY(spanY));
-                break;
-            case ITEM_TYPE_TASK:
-                itemBuilder
-                        .setTask(LauncherAtom.Task.newBuilder()
-                                .setComponentName(getTargetComponent().flattenToShortString())
-                                .setIndex(screenId));
-                break;
-            default:
-                break;
-        }
-        if (fInfo != null) {
-            LauncherAtom.FolderContainer.Builder folderBuilder =
-                    LauncherAtom.FolderContainer.newBuilder();
-            folderBuilder.setGridX(cellX).setGridY(cellY).setPageIndex(screenId);
+//    public LauncherAtom.ItemInfo buildProto(FolderInfo fInfo) {
+//        LauncherAtom.ItemInfo.Builder itemBuilder = getDefaultItemInfoBuilder();
+//        Optional<ComponentName> nullableComponent = Optional.ofNullable(getTargetComponent());
+//        switch (itemType) {
+//            case ITEM_TYPE_APPLICATION:
+//                itemBuilder
+//                        .setApplication(nullableComponent
+//                                .map(component -> LauncherAtom.Application.newBuilder()
+//                                        .setComponentName(component.flattenToShortString())
+//                                        .setPackageName(component.getPackageName()))
+//                                .orElse(LauncherAtom.Application.newBuilder()));
+//                break;
+//            case ITEM_TYPE_DEEP_SHORTCUT:
+//            case ITEM_TYPE_SHORTCUT:
+//                itemBuilder
+//                        .setShortcut(nullableComponent
+//                                .map(component -> LauncherAtom.Shortcut.newBuilder()
+//                                        .setShortcutName(component.flattenToShortString()))
+//                                .orElse(LauncherAtom.Shortcut.newBuilder()));
+//                break;
+//            case ITEM_TYPE_APPWIDGET:
+//                itemBuilder
+//                        .setWidget(nullableComponent
+//                                .map(component -> LauncherAtom.Widget.newBuilder()
+//                                        .setComponentName(component.flattenToShortString())
+//                                        .setPackageName(component.getPackageName()))
+//                                .orElse(LauncherAtom.Widget.newBuilder())
+//                                .setSpanX(spanX)
+//                                .setSpanY(spanY));
+//                break;
+//            case ITEM_TYPE_TASK:
+//                itemBuilder
+//                        .setTask(LauncherAtom.Task.newBuilder()
+//                                .setComponentName(getTargetComponent().flattenToShortString())
+//                                .setIndex(screenId));
+//                break;
+//            default:
+//                break;
+//        }
+//        if (fInfo != null) {
+//            LauncherAtom.FolderContainer.Builder folderBuilder =
+//                    LauncherAtom.FolderContainer.newBuilder();
+//            folderBuilder.setGridX(cellX).setGridY(cellY).setPageIndex(screenId);
+//
+//            switch (fInfo.container) {
+//                case CONTAINER_HOTSEAT:
+//                case CONTAINER_HOTSEAT_PREDICTION:
+//                    folderBuilder.setHotseat(LauncherAtom.HotseatContainer.newBuilder()
+//                            .setIndex(fInfo.screenId));
+//                    break;
+//                case CONTAINER_DESKTOP:
+//                    folderBuilder.setWorkspace(LauncherAtom.WorkspaceContainer.newBuilder()
+//                            .setPageIndex(fInfo.screenId)
+//                            .setGridX(fInfo.cellX).setGridY(fInfo.cellY));
+//                    break;
+//            }
+//            itemBuilder.setContainerInfo(ContainerInfo.newBuilder().setFolder(folderBuilder));
+//        } else {
+//            ContainerInfo containerInfo = getContainerInfo();
+//            if (!containerInfo.getContainerCase().equals(CONTAINER_NOT_SET)) {
+//                itemBuilder.setContainerInfo(containerInfo);
+//            }
+//        }
+//        return itemBuilder.build();
+//    }
 
-            switch (fInfo.container) {
-                case CONTAINER_HOTSEAT:
-                case CONTAINER_HOTSEAT_PREDICTION:
-                    folderBuilder.setHotseat(LauncherAtom.HotseatContainer.newBuilder()
-                            .setIndex(fInfo.screenId));
-                    break;
-                case CONTAINER_DESKTOP:
-                    folderBuilder.setWorkspace(LauncherAtom.WorkspaceContainer.newBuilder()
-                            .setPageIndex(fInfo.screenId)
-                            .setGridX(fInfo.cellX).setGridY(fInfo.cellY));
-                    break;
-            }
-            itemBuilder.setContainerInfo(ContainerInfo.newBuilder().setFolder(folderBuilder));
-        } else {
-            ContainerInfo containerInfo = getContainerInfo();
-            if (!containerInfo.getContainerCase().equals(CONTAINER_NOT_SET)) {
-                itemBuilder.setContainerInfo(containerInfo);
-            }
-        }
-        return itemBuilder.build();
-    }
+//    LauncherAtom.ItemInfo.Builder getDefaultItemInfoBuilder() {
+//        LauncherAtom.ItemInfo.Builder itemBuilder = LauncherAtom.ItemInfo.newBuilder();
+//        itemBuilder.setIsWork(user != Process.myUserHandle());
+//        return itemBuilder;
+//    }
 
-    LauncherAtom.ItemInfo.Builder getDefaultItemInfoBuilder() {
-        LauncherAtom.ItemInfo.Builder itemBuilder = LauncherAtom.ItemInfo.newBuilder();
-        itemBuilder.setIsWork(user != Process.myUserHandle());
-        return itemBuilder;
-    }
-
-    protected ContainerInfo getContainerInfo() {
-        switch (container) {
-            case CONTAINER_HOTSEAT:
-                return ContainerInfo.newBuilder()
-                        .setHotseat(LauncherAtom.HotseatContainer.newBuilder().setIndex(screenId))
-                        .build();
-            case CONTAINER_HOTSEAT_PREDICTION:
-                return ContainerInfo.newBuilder().setPredictedHotseatContainer(
-                        LauncherAtom.PredictedHotseatContainer.newBuilder().setIndex(screenId))
-                        .build();
-            case CONTAINER_DESKTOP:
-                return ContainerInfo.newBuilder()
-                        .setWorkspace(
-                                LauncherAtom.WorkspaceContainer.newBuilder()
-                                        .setGridX(cellX)
-                                        .setGridY(cellY)
-                                        .setPageIndex(screenId))
-                        .build();
-            case CONTAINER_ALL_APPS:
-                return ContainerInfo.newBuilder()
-                        .setAllAppsContainer(
-                                AllAppsContainer.getDefaultInstance())
-                        .build();
-            case CONTAINER_WIDGETS_TRAY:
-                return ContainerInfo.newBuilder()
-                        .setWidgetsContainer(
-                                LauncherAtom.WidgetsContainer.getDefaultInstance())
-                        .build();
-            case CONTAINER_PREDICTION:
-                return ContainerInfo.newBuilder()
-                        .setPredictionContainer(PredictionContainer.getDefaultInstance())
-                        .build();
-            case CONTAINER_SEARCH_RESULTS:
-                return ContainerInfo.newBuilder()
-                        .setSearchResultContainer(SearchResultContainer.getDefaultInstance())
-                        .build();
-            case CONTAINER_SHORTCUTS:
-                return ContainerInfo.newBuilder()
-                        .setShortcutsContainer(ShortcutsContainer.getDefaultInstance())
-                        .build();
-            case CONTAINER_SETTINGS:
-                return ContainerInfo.newBuilder()
-                        .setSettingsContainer(SettingsContainer.getDefaultInstance())
-                        .build();
-            case CONTAINER_TASKSWITCHER:
-                return ContainerInfo.newBuilder()
-                        .setTaskSwitcherContainer(TaskSwitcherContainer.getDefaultInstance())
-                        .build();
-            case CONTAINER_TASKFOREGROUND:
-                return ContainerInfo.newBuilder()
-                        .setTaskForegroundContainer(TaskForegroundContainer.getDefaultInstance())
-                        .build();
-
-
-        }
-        return ContainerInfo.getDefaultInstance();
-    }
+//    protected ContainerInfo getContainerInfo() {
+//        switch (container) {
+//            case CONTAINER_HOTSEAT:
+//                return ContainerInfo.newBuilder()
+//                        .setHotseat(LauncherAtom.HotseatContainer.newBuilder().setIndex(screenId))
+//                        .build();
+//            case CONTAINER_HOTSEAT_PREDICTION:
+//                return ContainerInfo.newBuilder().setPredictedHotseatContainer(
+//                        LauncherAtom.PredictedHotseatContainer.newBuilder().setIndex(screenId))
+//                        .build();
+//            case CONTAINER_DESKTOP:
+//                return ContainerInfo.newBuilder()
+//                        .setWorkspace(
+//                                LauncherAtom.WorkspaceContainer.newBuilder()
+//                                        .setGridX(cellX)
+//                                        .setGridY(cellY)
+//                                        .setPageIndex(screenId))
+//                        .build();
+//            case CONTAINER_ALL_APPS:
+//                return ContainerInfo.newBuilder()
+//                        .setAllAppsContainer(
+//                                AllAppsContainer.getDefaultInstance())
+//                        .build();
+//            case CONTAINER_WIDGETS_TRAY:
+//                return ContainerInfo.newBuilder()
+//                        .setWidgetsContainer(
+//                                LauncherAtom.WidgetsContainer.getDefaultInstance())
+//                        .build();
+//            case CONTAINER_PREDICTION:
+//                return ContainerInfo.newBuilder()
+//                        .setPredictionContainer(PredictionContainer.getDefaultInstance())
+//                        .build();
+//            case CONTAINER_SEARCH_RESULTS:
+//                return ContainerInfo.newBuilder()
+//                        .setSearchResultContainer(SearchResultContainer.getDefaultInstance())
+//                        .build();
+//            case CONTAINER_SHORTCUTS:
+//                return ContainerInfo.newBuilder()
+//                        .setShortcutsContainer(ShortcutsContainer.getDefaultInstance())
+//                        .build();
+//            case CONTAINER_SETTINGS:
+//                return ContainerInfo.newBuilder()
+//                        .setSettingsContainer(SettingsContainer.getDefaultInstance())
+//                        .build();
+//            case CONTAINER_TASKSWITCHER:
+//                return ContainerInfo.newBuilder()
+//                        .setTaskSwitcherContainer(TaskSwitcherContainer.getDefaultInstance())
+//                        .build();
+//            case CONTAINER_TASKFOREGROUND:
+//                return ContainerInfo.newBuilder()
+//                        .setTaskForegroundContainer(TaskForegroundContainer.getDefaultInstance())
+//                        .build();
+//
+//
+//        }
+//        return ContainerInfo.getDefaultInstance();
+//    }
 
     /**
      * Returns shallow copy of the object.

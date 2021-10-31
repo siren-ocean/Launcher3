@@ -16,12 +16,6 @@
 
 package com.android.launcher3.folder;
 
-import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.MAX_NUM_ITEMS_IN_PREVIEW;
-import static com.android.launcher3.folder.PreviewItemManager.INITIAL_ITEM_ANIMATION_DURATION;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_FOLDER_AUTO_LABELED;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_FOLDER_AUTO_LABELING_SKIPPED_EMPTY_PRIMARY;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_FOLDER_AUTO_LABELING_SKIPPED_EMPTY_SUGGESTIONS;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -38,8 +32,6 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
-import androidx.annotation.NonNull;
 
 import com.android.launcher3.Alarm;
 import com.android.launcher3.BubbleTextView;
@@ -63,14 +55,11 @@ import com.android.launcher3.dragndrop.DragLayer;
 import com.android.launcher3.dragndrop.DragView;
 import com.android.launcher3.dragndrop.DraggableView;
 import com.android.launcher3.icons.DotRenderer;
-import com.android.launcher3.logger.LauncherAtom.FromState;
-import com.android.launcher3.logger.LauncherAtom.ToState;
 import com.android.launcher3.logging.InstanceId;
 import com.android.launcher3.logging.StatsLogManager;
 import com.android.launcher3.model.data.AppInfo;
 import com.android.launcher3.model.data.FolderInfo;
 import com.android.launcher3.model.data.FolderInfo.FolderListener;
-import com.android.launcher3.model.data.FolderInfo.LabelState;
 import com.android.launcher3.model.data.ItemInfo;
 import com.android.launcher3.model.data.WorkspaceItemInfo;
 import com.android.launcher3.touch.ItemClickHandler;
@@ -83,6 +72,13 @@ import com.android.launcher3.widget.PendingAddShortcutInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import androidx.annotation.NonNull;
+
+import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.MAX_NUM_ITEMS_IN_PREVIEW;
+import static com.android.launcher3.folder.PreviewItemManager.INITIAL_ITEM_ANIMATION_DURATION;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_FOLDER_AUTO_LABELING_SKIPPED_EMPTY_PRIMARY;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_FOLDER_AUTO_LABELING_SKIPPED_EMPTY_SUGGESTIONS;
 
 
 /**
@@ -444,9 +440,9 @@ public class FolderIcon extends FrameLayout implements FolderListener, IconLabel
         if (!FeatureFlags.FOLDER_NAME_SUGGEST.get()) {
             return;
         }
-        if (!mInfo.getLabelState().equals(LabelState.UNLABELED)) {
-            return;
-        }
+//        if (!mInfo.getLabelState().equals(LabelState.UNLABELED)) {
+//            return;
+//        }
         if (nameInfos == null || !nameInfos.hasSuggestions()) {
             StatsLogManager.newInstance(getContext()).logger()
                     .withInstanceId(instanceId)
@@ -462,23 +458,23 @@ public class FolderIcon extends FrameLayout implements FolderListener, IconLabel
             return;
         }
         CharSequence newTitle = nameInfos.getLabels()[0];
-        FromState fromState = mInfo.getFromLabelState();
+//        FromState fromState = mInfo.getFromLabelState();
 
         mInfo.setTitle(newTitle, mFolder.mLauncher.getModelWriter());
         onTitleChanged(mInfo.title);
         mFolder.mFolderName.setText(mInfo.title);
 
         // Logging for folder creation flow
-        StatsLogManager.newInstance(getContext()).logger()
-                .withInstanceId(instanceId)
-                .withItemInfo(mInfo)
-                .withFromState(fromState)
-                .withToState(ToState.TO_SUGGESTION0)
+//        StatsLogManager.newInstance(getContext()).logger()
+//                .withInstanceId(instanceId)
+//                .withItemInfo(mInfo)
+//                .withFromState(fromState)
+//                .withToState(ToState.TO_SUGGESTION0)
                 // When LAUNCHER_FOLDER_LABEL_UPDATED event.edit_text does not have delimiter,
                 // event is assumed to be folder creation on the server side.
-                .withEditText(newTitle.toString())
-                .log(LAUNCHER_FOLDER_AUTO_LABELED);
-        mFolder.logFolderLabelState(fromState, ToState.TO_SUGGESTION0);
+//                .withEditText(newTitle.toString())
+//                .log(LAUNCHER_FOLDER_AUTO_LABELED);
+//        mFolder.logFolderLabelState(fromState, ToState.TO_SUGGESTION0);
     }
 
 

@@ -16,22 +16,6 @@
 
 package com.android.launcher3;
 
-import static com.android.launcher3.LauncherAnimUtils.SPRING_LOADED_EXIT_DELAY;
-import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_APPLICATION;
-import static com.android.launcher3.LauncherState.ALL_APPS;
-import static com.android.launcher3.LauncherState.FLAG_MULTI_PAGE;
-import static com.android.launcher3.LauncherState.FLAG_WORKSPACE_ICONS_CAN_BE_DRAGGED;
-import static com.android.launcher3.LauncherState.FLAG_WORKSPACE_INACCESSIBLE;
-import static com.android.launcher3.LauncherState.NORMAL;
-import static com.android.launcher3.LauncherState.OVERVIEW;
-import static com.android.launcher3.LauncherState.SPRING_LOADED;
-import static com.android.launcher3.config.FeatureFlags.ADAPTIVE_ICON_WINDOW_ANIM;
-import static com.android.launcher3.dragndrop.DragLayer.ALPHA_INDEX_OVERLAY;
-import static com.android.launcher3.logging.LoggerUtils.newContainerTarget;
-import static com.android.launcher3.logging.StatsLogManager.LAUNCHER_STATE_HOME;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_SWIPELEFT;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_SWIPERIGHT;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
@@ -82,7 +66,6 @@ import com.android.launcher3.folder.PreviewBackground;
 import com.android.launcher3.graphics.DragPreviewProvider;
 import com.android.launcher3.graphics.PreloadIconDrawable;
 import com.android.launcher3.icons.BitmapRenderer;
-import com.android.launcher3.logger.LauncherAtom;
 import com.android.launcher3.logging.StatsLogManager;
 import com.android.launcher3.logging.StatsLogManager.LauncherEvent;
 import com.android.launcher3.logging.UserEventDispatcher;
@@ -116,6 +99,21 @@ import com.android.systemui.plugins.shared.LauncherOverlayManager.LauncherOverla
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Predicate;
+
+import static com.android.launcher3.LauncherAnimUtils.SPRING_LOADED_EXIT_DELAY;
+import static com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_APPLICATION;
+import static com.android.launcher3.LauncherState.ALL_APPS;
+import static com.android.launcher3.LauncherState.FLAG_MULTI_PAGE;
+import static com.android.launcher3.LauncherState.FLAG_WORKSPACE_ICONS_CAN_BE_DRAGGED;
+import static com.android.launcher3.LauncherState.FLAG_WORKSPACE_INACCESSIBLE;
+import static com.android.launcher3.LauncherState.NORMAL;
+import static com.android.launcher3.LauncherState.OVERVIEW;
+import static com.android.launcher3.LauncherState.SPRING_LOADED;
+import static com.android.launcher3.config.FeatureFlags.ADAPTIVE_ICON_WINDOW_ANIM;
+import static com.android.launcher3.dragndrop.DragLayer.ALPHA_INDEX_OVERLAY;
+import static com.android.launcher3.logging.LoggerUtils.newContainerTarget;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_SWIPELEFT;
+import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_SWIPERIGHT;
 
 /**
  * The workspace is a wide area with a wallpaper and a finite number of pages.
@@ -1005,15 +1003,15 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
             if (!mOverlayShown) {
                 mLauncher.getUserEventDispatcher().logActionOnContainer(Action.Touch.SWIPE,
                         Action.Direction.LEFT, ContainerType.WORKSPACE, 0);
-                mLauncher.getStatsLogManager().logger()
-                        .withSrcState(LAUNCHER_STATE_HOME)
-                        .withDstState(LAUNCHER_STATE_HOME)
-                        .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
-                                .setWorkspace(
-                                        LauncherAtom.WorkspaceContainer.newBuilder()
-                                                .setPageIndex(0))
-                                .build())
-                        .log(LAUNCHER_SWIPELEFT);
+//                mLauncher.getStatsLogManager().logger()
+//                        .withSrcState(LAUNCHER_STATE_HOME)
+//                        .withDstState(LAUNCHER_STATE_HOME)
+//                        .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
+//                                .setWorkspace(
+//                                        LauncherAtom.WorkspaceContainer.newBuilder()
+//                                                .setPageIndex(0))
+//                                .build())
+//                        .log(LAUNCHER_SWIPELEFT);
             }
             mOverlayShown = true;
             // Not announcing the overlay page for accessibility since it announces itself.
@@ -1023,15 +1021,15 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
                 if (!ued.isPreviousHomeGesture()) {
                     mLauncher.getUserEventDispatcher().logActionOnContainer(Action.Touch.SWIPE,
                         Action.Direction.RIGHT, ContainerType.WORKSPACE, -1);
-                    mLauncher.getStatsLogManager().logger()
-                            .withSrcState(LAUNCHER_STATE_HOME)
-                            .withDstState(LAUNCHER_STATE_HOME)
-                            .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
-                                    .setWorkspace(
-                                            LauncherAtom.WorkspaceContainer.newBuilder()
-                                                    .setPageIndex(-1))
-                                    .build())
-                            .log(LAUNCHER_SWIPERIGHT);
+//                    mLauncher.getStatsLogManager().logger()
+//                            .withSrcState(LAUNCHER_STATE_HOME)
+//                            .withDstState(LAUNCHER_STATE_HOME)
+//                            .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
+//                                    .setWorkspace(
+//                                            LauncherAtom.WorkspaceContainer.newBuilder()
+//                                                    .setPageIndex(-1))
+//                                    .build())
+//                            .log(LAUNCHER_SWIPERIGHT);
                 }
             } else if (Float.compare(mOverlayTranslation, 0f) != 0) {
                 // When arriving to 0 overscroll from non-zero overscroll, announce page for
@@ -1129,14 +1127,14 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
                     ? LAUNCHER_SWIPERIGHT : LAUNCHER_SWIPELEFT;
             mLauncher.getUserEventDispatcher().logActionOnContainer(Action.Touch.SWIPE,
                     swipeDirection, ContainerType.WORKSPACE, prevPage);
-            mLauncher.getStatsLogManager().logger()
-                    .withSrcState(LAUNCHER_STATE_HOME)
-                    .withDstState(LAUNCHER_STATE_HOME)
-                    .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
-                            .setWorkspace(
-                                    LauncherAtom.WorkspaceContainer.newBuilder()
-                                            .setPageIndex(prevPage)).build())
-                    .log(event);
+//            mLauncher.getStatsLogManager().logger()
+//                    .withSrcState(LAUNCHER_STATE_HOME)
+//                    .withDstState(LAUNCHER_STATE_HOME)
+//                    .withContainerInfo(LauncherAtom.ContainerInfo.newBuilder()
+//                            .setWorkspace(
+//                                    LauncherAtom.WorkspaceContainer.newBuilder()
+//                                            .setPageIndex(prevPage)).build())
+//                    .log(event);
         }
     }
 

@@ -15,6 +15,40 @@
  */
 package com.android.launcher3.uioverrides.touchcontrollers;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.graphics.PointF;
+import android.view.MotionEvent;
+import android.view.animation.Interpolator;
+
+import com.android.launcher3.BaseQuickstepLauncher;
+import com.android.launcher3.LauncherState;
+import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
+import com.android.launcher3.allapps.AllAppsTransitionController;
+import com.android.launcher3.anim.AnimatorPlaybackController;
+import com.android.launcher3.anim.PendingAnimation;
+import com.android.launcher3.config.FeatureFlags;
+import com.android.launcher3.graphics.OverviewScrim;
+import com.android.launcher3.states.StateAnimationConfig;
+import com.android.launcher3.touch.BaseSwipeDetector;
+import com.android.launcher3.touch.BothAxesSwipeDetector;
+import com.android.launcher3.userevent.nano.LauncherLogProto;
+import com.android.launcher3.userevent.nano.LauncherLogProto.Action.Direction;
+import com.android.launcher3.userevent.nano.LauncherLogProto.Action.Touch;
+import com.android.launcher3.util.TouchController;
+import com.android.launcher3.util.VibratorWrapper;
+import com.android.quickstep.AnimatedFloat;
+import com.android.quickstep.SystemUiProxy;
+import com.android.quickstep.util.AnimatorControllerWithResistance;
+import com.android.quickstep.util.LayoutUtils;
+import com.android.quickstep.util.MotionPauseDetector;
+import com.android.quickstep.util.ShelfPeekAnim;
+import com.android.quickstep.util.ShelfPeekAnim.ShelfAnimState;
+import com.android.quickstep.util.StaggeredWorkspaceAnim;
+import com.android.quickstep.views.LauncherRecentsView;
+
 import static com.android.launcher3.LauncherState.HOTSEAT_ICONS;
 import static com.android.launcher3.LauncherState.NORMAL;
 import static com.android.launcher3.LauncherState.OVERVIEW;
@@ -26,10 +60,6 @@ import static com.android.launcher3.anim.Interpolators.DEACCEL_5;
 import static com.android.launcher3.anim.Interpolators.LINEAR;
 import static com.android.launcher3.anim.Interpolators.scrollInterpolatorForVelocity;
 import static com.android.launcher3.anim.PropertySetter.NO_ANIM_PROPERTY_SETTER;
-import static com.android.launcher3.logging.StatsLogManager.LAUNCHER_STATE_HOME;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_UNKNOWN_SWIPEDOWN;
-import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_UNKNOWN_SWIPEUP;
-import static com.android.launcher3.logging.StatsLogManager.getLauncherAtomEvent;
 import static com.android.launcher3.states.StateAnimationConfig.ANIM_ALL_APPS_FADE;
 import static com.android.launcher3.states.StateAnimationConfig.ANIM_VERTICAL_PROGRESS;
 import static com.android.launcher3.states.StateAnimationConfig.ANIM_WORKSPACE_FADE;
@@ -48,41 +78,6 @@ import static com.android.quickstep.views.RecentsView.FULLSCREEN_PROGRESS;
 import static com.android.quickstep.views.RecentsView.RECENTS_SCALE_PROPERTY;
 import static com.android.quickstep.views.RecentsView.TASK_SECONDARY_TRANSLATION;
 import static com.android.systemui.shared.system.QuickStepContract.SYSUI_STATE_OVERVIEW_DISABLED;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.graphics.PointF;
-import android.view.MotionEvent;
-import android.view.animation.Interpolator;
-
-import com.android.launcher3.BaseQuickstepLauncher;
-import com.android.launcher3.LauncherState;
-import com.android.launcher3.R;
-import com.android.launcher3.Utilities;
-import com.android.launcher3.allapps.AllAppsTransitionController;
-import com.android.launcher3.anim.AnimatorPlaybackController;
-import com.android.launcher3.anim.PendingAnimation;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.graphics.OverviewScrim;
-import com.android.launcher3.logging.StatsLogManager;
-import com.android.launcher3.states.StateAnimationConfig;
-import com.android.launcher3.touch.BaseSwipeDetector;
-import com.android.launcher3.touch.BothAxesSwipeDetector;
-import com.android.launcher3.userevent.nano.LauncherLogProto;
-import com.android.launcher3.userevent.nano.LauncherLogProto.Action.Direction;
-import com.android.launcher3.userevent.nano.LauncherLogProto.Action.Touch;
-import com.android.launcher3.util.TouchController;
-import com.android.launcher3.util.VibratorWrapper;
-import com.android.quickstep.AnimatedFloat;
-import com.android.quickstep.SystemUiProxy;
-import com.android.quickstep.util.AnimatorControllerWithResistance;
-import com.android.quickstep.util.LayoutUtils;
-import com.android.quickstep.util.MotionPauseDetector;
-import com.android.quickstep.util.ShelfPeekAnim;
-import com.android.quickstep.util.ShelfPeekAnim.ShelfAnimState;
-import com.android.quickstep.util.StaggeredWorkspaceAnim;
-import com.android.quickstep.views.LauncherRecentsView;
 
 /**
  * Handles quick switching to a recent task from the home screen. To give as much flexibility to
@@ -450,13 +445,13 @@ public class NoButtonQuickSwitchTouchController implements TouchController,
                 mStartState.containerType,
                 targetState.containerType,
                 mLauncher.getWorkspace().getCurrentPage());
-        mLauncher.getStatsLogManager().logger()
-                .withSrcState(LAUNCHER_STATE_HOME)
-                .withDstState(StatsLogManager.containerTypeToAtomState(targetState.containerType))
-                .log(getLauncherAtomEvent(mStartState.containerType, targetState.containerType,
-                        targetState.ordinal > mStartState.ordinal
-                                ? LAUNCHER_UNKNOWN_SWIPEUP
-                                : LAUNCHER_UNKNOWN_SWIPEDOWN));
+//        mLauncher.getStatsLogManager().logger()
+//                .withSrcState(LAUNCHER_STATE_HOME)
+//                .withDstState(StatsLogManager.containerTypeToAtomState(targetState.containerType))
+//                .log(getLauncherAtomEvent(mStartState.containerType, targetState.containerType,
+//                        targetState.ordinal > mStartState.ordinal
+//                                ? LAUNCHER_UNKNOWN_SWIPEUP
+//                                : LAUNCHER_UNKNOWN_SWIPEDOWN));
         mLauncher.getStateManager().goToState(targetState, false, this::clearState);
     }
 

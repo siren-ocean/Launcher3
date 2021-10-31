@@ -55,8 +55,6 @@ import com.android.launcher3.appprediction.DynamicItemCache;
 import com.android.launcher3.dragndrop.DragController;
 import com.android.launcher3.dragndrop.DragOptions;
 import com.android.launcher3.icons.IconCache;
-import com.android.launcher3.logger.LauncherAtom.ContainerInfo;
-import com.android.launcher3.logger.LauncherAtom.PredictedHotseatContainer;
 import com.android.launcher3.logging.InstanceId;
 import com.android.launcher3.model.data.AppInfo;
 import com.android.launcher3.model.data.FolderInfo;
@@ -663,18 +661,18 @@ public class HotseatPredictionController implements DragController.DragListener,
             cardinality |= 1 << info.screenId;
         }
 
-        PredictedHotseatContainer.Builder containerBuilder = PredictedHotseatContainer.newBuilder();
-        containerBuilder.setCardinality(cardinality);
-        if (itemInfo.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT_PREDICTION) {
-            containerBuilder.setIndex(rank.getAsInt());
-        }
-        mLauncher.getStatsLogManager().logger()
-                .withInstanceId(instanceId)
-                .withRank(rank.getAsInt())
-                .withContainerInfo(ContainerInfo.newBuilder()
-                        .setPredictedHotseatContainer(containerBuilder)
-                        .build())
-                .log(LAUNCHER_HOTSEAT_RANKED);
+//        PredictedHotseatContainer.Builder containerBuilder = PredictedHotseatContainer.newBuilder();
+//        containerBuilder.setCardinality(cardinality);
+//        if (itemInfo.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT_PREDICTION) {
+//            containerBuilder.setIndex(rank.getAsInt());
+//        }
+//        mLauncher.getStatsLogManager().logger()
+//                .withInstanceId(instanceId)
+//                .withRank(rank.getAsInt())
+//                .withContainerInfo(ContainerInfo.newBuilder()
+//                        .setPredictedHotseatContainer(containerBuilder)
+//                        .build())
+//                .log(LAUNCHER_HOTSEAT_RANKED);
     }
 
     private class PinPrediction extends SystemShortcut<QuickstepLauncher> {

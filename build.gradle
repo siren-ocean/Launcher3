@@ -23,15 +23,26 @@ android {
     defaultConfig {
         minSdkVersion 25
         targetSdkVersion 28
-        versionCode 1
+        versionCode 100
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
+    signingConfigs {
+        testkey {
+            storeFile file("testkey.keystore")
+            storePassword '123456'
+            keyAlias 'testkey'
+            keyPassword '123456'
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.testkey
         }
     }
 
@@ -142,21 +153,33 @@ allprojects {
         mavenCentral()
         google()
     }
+    gradle.projectsEvaluated { tasks.withType(JavaCompile) { options.compilerArgs << '-Xbootclasspath/p:libs/framework.jar' } }
 }
 
 dependencies {
+    compileOnly files('libs/framework.jar')
     implementation "androidx.dynamicanimation:dynamicanimation:${ANDROID_X_VERSION}"
-    implementation "androidx.recyclerview:recyclerview:${ANDROID_X_VERSION}"
-    implementation "androidx.preference:preference:${ANDROID_X_VERSION}"
+    implementation("androidx.recyclerview:recyclerview:${ANDROID_X_VERSION}") {
+        exclude group: 'androidx.core', module: 'core'
+    }
+    implementation("androidx.preference:preference:${ANDROID_X_VERSION}") {
+        exclude group: 'androidx.core', module: 'core'
+    }
     implementation project(':IconLoader')
-    withQuickstepImplementation project(':SharedLibWrapper')
-    implementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'launcher_protos.jar')
+//    withQuickstepImplementation project(':SharedLibWrapper')
+    withQuickstepImplementation files("libs/SystemUISharedLib.jar")
+//    implementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'launcher_protos.jar')
+    implementation files("libs/libprotobuf-java-nano.jar")
 
     // Recents lib dependency
     withQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/quickstep/libs", include: 'sysui_shared.jar')
 
+
     // Required for AOSP to compile. This is already included in the sysui_shared.jar
-    withoutQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
+//    withoutQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
+    withoutQuickstepImplementation files("libs/PluginCoreLib.jar")
+
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "org.mockito:mockito-core:1.9.5"
