@@ -180,3 +180,9 @@ StatsLogCompatManager
 编译并打包结果：  
 
 ![avatar](images/output.jpg)
+
+### 关联项目
+* [SystemUI](https://github.com/siren-ocean/SystemUI)
+* [Settings](https://github.com/siren-ocean/Settings)
+* [DocumentsUI](https://github.com/siren-ocean/DocumentsUI)
+* [Camera2](https://github.com/siren-ocean/Camera2)
