@@ -186,3 +186,4 @@ StatsLogCompatManager
 * [Settings](https://github.com/siren-ocean/Settings)
 * [DocumentsUI](https://github.com/siren-ocean/DocumentsUI)
 * [Camera2](https://github.com/siren-ocean/Camera2)
+* [PermissionController](https://github.com/siren-ocean/PermissionController)
