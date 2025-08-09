@@ -52,7 +52,7 @@ import com.android.launcher3.logger.LauncherAtom.PredictionContainer;
 import com.android.launcher3.logger.LauncherAtom.SearchResultContainer;
 import com.android.launcher3.logger.LauncherAtom.SettingsContainer;
 import com.android.launcher3.logger.LauncherAtom.ShortcutsContainer;
-import com.android.launcher3.logger.LauncherAtom.TaskForegroundContainer;
+// import com.android.launcher3.logger.LauncherAtom.TaskForegroundContainer;
 import com.android.launcher3.logger.LauncherAtom.TaskSwitcherContainer;
 import com.android.launcher3.model.ModelWriter;
 import com.android.launcher3.util.ContentWriter;
@@ -394,10 +394,10 @@ public class ItemInfo {
                 return ContainerInfo.newBuilder()
                         .setTaskSwitcherContainer(TaskSwitcherContainer.getDefaultInstance())
                         .build();
-            case CONTAINER_TASKFOREGROUND:
-                return ContainerInfo.newBuilder()
-                        .setTaskForegroundContainer(TaskForegroundContainer.getDefaultInstance())
-                        .build();
+            // case CONTAINER_TASKFOREGROUND:
+            //     return ContainerInfo.newBuilder()
+            //             .setTaskForegroundContainer(TaskForegroundContainer.getDefaultInstance())
+            //             .build();
 
 
         }
