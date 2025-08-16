@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+/* Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Attributes used for launcher theme -->
+    <attr name="allAppsScrimColor" format="color" />
+    <attr name="allappsHeaderProtectionColor" format="color" />
+    <attr name="allAppsNavBarScrimColor" format="color" />
+    <attr name="allAppsTheme" format="reference" />
+    <attr name="popupColorPrimary" format="color" />
+    <attr name="popupColorSecondary" format="color" />
+    <attr name="popupColorTertiary" format="color" />
+    <attr name="popupShadeFirst" format="color" />
+    <attr name="popupShadeSecond" format="color" />
+    <attr name="popupShadeThird" format="color" />
+    <attr name="isMainColorDark" format="boolean" />
+    <attr name="isWorkspaceDarkText" format="boolean" />
+    <attr name="workspaceTextColor" format="color" />
+    <attr name="workspaceShadowColor" format="color" />
+    <attr name="workspaceAmbientShadowColor" format="color" />
+    <attr name="workspaceKeyShadowColor" format="color" />
+    <attr name="workspaceStatusBarScrim" format="reference" />
+    <attr name="widgetsTheme" format="reference" />
+    <attr name="iconOnlyShortcutColor" format="color" />
+    <attr name="eduHalfSheetBGColor" format="color" />
+    <attr name="overviewScrimColor" format="color" />
+    <attr name="popupNotificationDotColor" format="color" />
+
+    <attr name="folderDotColor" format="color" />
+    <attr name="folderPaginationColor" format="color" />
+    <attr name="folderPreviewColor" format="color" />
+    <attr name="folderBackgroundColor" format="color" />
+    <attr name="folderIconRadius" format="float" />
+    <attr name="folderIconBorderColor" format="color" />
+    <attr name="folderTextColor" format="color" />
+    <attr name="folderHintColor" format="color" />
+    <attr name="isFolderDarkText" format="boolean" />
+    <attr name="workProfileOverlayTextColor" format="color" />
+    <attr name="workspaceAccentColor" format="color" />
+    <attr name="dropTargetHoverTextColor" format="color" />
+
+    <attr name="allAppsButtonBgColor" format="color" />
+    <attr name="allAppsButtonColor1" format="color" />
+    <attr name="allAppsButtonColor2" format="color" />
+    <attr name="allAppsButtonColor3" format="color" />
+    <attr name="allAppsButtonColor4" format="color" />
+
+    <!-- BubbleTextView specific attributes. -->
+    <declare-styleable name="BubbleTextView">
+        <attr name="layoutHorizontal" format="boolean" />
+        <attr name="iconSizeOverride" format="dimension" />
+        <attr name="iconDisplay" format="integer">
+            <enum name="workspace" value="0" />
+            <enum name="all_apps" value="1" />
+            <enum name="folder" value="2" />
+            <enum name="widget_section" value="3" />
+            <enum name="shortcut_popup" value="4" />
+            <enum name="taskbar" value="5" />
+            <enum name="search_result_tall" value="6" />
+            <enum name="search_result_small" value="7" />
+        </attr>
+        <attr name="centerVertically" format="boolean" />
+    </declare-styleable>
+
+    <!-- BubbleTextView specific attributes. -->
+    <declare-styleable name="FolderIconPreview">
+        <attr name="folderPreviewColor" />
+        <attr name="folderIconBorderColor" />
+        <attr name="folderDotColor" />
+    </declare-styleable>
+
+    <declare-styleable name="SearchResultSuggestion">
+        <attr name="customIcon" format="reference" />
+        <attr name="matchTextInsetWithQuery" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ShadowInfo">
+        <attr name="ambientShadowColor" format="color" />
+        <attr name="ambientShadowBlur" format="dimension" />
+        <attr name="keyShadowColor" format="color" />
+        <attr name="keyShadowBlur" format="dimension" />
+        <attr name="keyShadowOffsetX" format="dimension" />
+        <attr name="keyShadowOffsetY" format="dimension" />
+    </declare-styleable>
+
+    <!-- PagedView specific attributes. These attributes are used to customize
+         a PagedView view in XML files. -->
+    <declare-styleable name="PagedView">
+        <!-- The page indicator for this workspace -->
+        <attr name="pageIndicator" format="reference" />
+    </declare-styleable>
+
+    <!-- XML attributes used by default_workspace.xml -->
+    <declare-styleable name="Favorite">
+        <attr name="className" format="string" />
+        <attr name="packageName" format="string" />
+        <attr name="container" format="string" />
+        <attr name="screen" format="string" />
+        <attr name="x" format="string" />
+        <attr name="y" format="string" />
+        <attr name="spanX" format="string" />
+        <attr name="spanY" format="string" />
+        <attr name="icon" format="reference" />
+        <attr name="title" format="string" />
+        <attr name="uri" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="Extra">
+        <attr name="key" format="string" />
+        <attr name="value" format="string" />
+    </declare-styleable>
+    <declare-styleable name="Include">
+        <attr name="workspace" format="reference" />
+        <attr name="folderItems" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="InsettableFrameLayout_Layout">
+        <attr name="layout_ignoreInsets" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="GridDisplayOption">
+        <attr name="name" format="string" />
+
+        <attr name="numRows" format="integer" />
+        <attr name="numColumns" format="integer" />
+        <!--  numSearchContainerColumns defaults to numColumns, if not specified -->
+        <attr name="numSearchContainerColumns" format="integer" />
+        <!-- numFolderRows & numFolderColumns defaults to numRows & numColumns, if not specified -->
+        <attr name="numFolderRows" format="integer" />
+        <attr name="numFolderColumns" format="integer" />
+        <!-- numAllAppsColumns defaults to numColumns, if not specified -->
+        <attr name="numAllAppsColumns" format="integer" />
+        <!-- Number of columns to use when extending the all-apps size,
+         defaults to 2 * numAllAppsColumns -->
+        <attr name="numExtendedAllAppsColumns" format="integer" />
+
+        <!-- numHotseatIcons defaults to numColumns, if not specified -->
+        <attr name="numHotseatIcons" format="integer" />
+        <!-- Number of icons to use when shrinking the hotseat size,
+         defaults to numHotseatIcons / 2 -->
+        <attr name="numShrunkenHotseatIcons" format="integer" />
+        <!-- Number of icons to use when extending the hotseat size,
+         defaults to 2 * numHotseatIcons -->
+        <attr name="numExtendedHotseatIcons" format="integer" />
+
+        <!-- alignment of hotseat to the grid.
+        Not applicable for 3 button mode when taskbar is enabled -->
+        <!-- defaults to numColumns, if not specified -->
+        <attr name="hotseatColumnSpan" format="integer" />
+        <!-- defaults to numColumns, if not specified -->
+        <attr name="hotseatColumnSpanLandscape" format="integer" />
+        <!-- defaults to numColumns, if not specified -->
+        <attr name="hotseatColumnSpanTwoPanelLandscape" format="integer" />
+        <!-- defaults to numColumns, if not specified -->
+        <attr name="hotseatColumnSpanTwoPanelPortrait" format="integer" />
+
+        <attr name="dbFile" format="string" />
+        <attr name="defaultLayoutId" format="reference" />
+        <attr name="defaultSplitDisplayLayoutId" format="reference" />
+        <attr name="demoModeLayoutId" format="reference" />
+        <attr name="isScalable" format="boolean" />
+        <attr name="devicePaddingId" format="reference" />
+        <!-- By default all categories are enabled -->
+        <attr name="deviceCategory" format="integer" >
+            <!-- Enable on phone only -->
+            <flag name="phone" value="1" />
+            <!-- Enable on tablets only -->
+            <flag name="tablet" value="2" />
+            <!-- Enable on multi display devices only -->
+            <flag name="multi_display" value="4" />
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="DevicePadding">
+        <attr name="maxEmptySpace" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="DevicePaddingFormula">
+        <attr name="a" format="float|dimension" />
+        <attr name="b" format="float|dimension" />
+        <attr name="c" format="float|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ProfileDisplayOption">
+        <attr name="name" />
+        <attr name="minWidthDps" format="float" />
+        <attr name="minHeightDps" format="float" />
+
+        <!-- These min cell values are only used if GridDisplayOption#isScalable is true -->
+        <attr name="minCellHeight" format="float" />
+        <attr name="minCellWidth" format="float" />
+        <!-- defaults to minCellHeight, if not specified -->
+        <attr name="minCellHeightLandscape" format="float" />
+        <!-- defaults to minCellWidth, if not specified -->
+        <attr name="minCellWidthLandscape" format="float" />
+        <!-- defaults to minCellHeight, if not specified -->
+        <attr name="minCellHeightTwoPanelPortrait" format="float" />
+        <!-- defaults to minCellWidth, if not specified -->
+        <attr name="minCellWidthTwoPanelPortrait" format="float" />
+        <!-- defaults to minCellHeight, if not specified -->
+        <attr name="minCellHeightTwoPanelLandscape" format="float" />
+        <!-- defaults to minCellWidth, if not specified -->
+        <attr name="minCellWidthTwoPanelLandscape" format="float" />
+
+        <!-- These border spaces are only used if GridDisplayOption#isScalable is true -->
+        <!-- space to be used horizontally and vertically -->
+        <attr name="borderSpace" format="float" />
+        <!-- space to the right of the cell, defaults to borderSpace if not specified -->
+        <attr name="borderSpaceHorizontal" format="float" />
+        <!-- space below the cell, defaults to borderSpace if not specified -->
+        <attr name="borderSpaceVertical" format="float" />
+        <!-- space to be used horizontally and vertically,
+        defaults to borderSpace if not specified -->
+        <attr name="borderSpaceLandscape" format="float" />
+        <!-- space to the right of the cell, defaults to borderSpaceLandscape if not specified -->
+        <attr name="borderSpaceLandscapeHorizontal" format="float" />
+        <!-- space below the cell, defaults to borderSpaceLandscape if not specified -->
+        <attr name="borderSpaceLandscapeVertical" format="float" />
+        <!-- space to be used horizontally and vertically in two panels,
+        defaults to borderSpace if not specified -->
+        <attr name="borderSpaceTwoPanelPortrait" format="float" />
+        <!-- space to the right of the cell in two panels, defaults to
+        borderSpaceTwoPanelPortrait if not specified -->
+        <attr name="borderSpaceTwoPanelPortraitHorizontal" format="float" />
+        <!-- space below the cell in two panels, defaults to borderSpaceTwoPanelPortrait
+        if not specified -->
+        <attr name="borderSpaceTwoPanelPortraitVertical" format="float" />
+        <!-- space to be used horizontally and vertically in two panels,
+        defaults to borderSpace if not specified -->
+        <attr name="borderSpaceTwoPanelLandscape" format="float" />
+        <!-- space to the right of the cell in two panels, defaults to
+        borderSpaceTwoPanelLandscape if not specified -->
+        <attr name="borderSpaceTwoPanelLandscapeHorizontal" format="float" />
+        <!-- space below the cell in two panels, defaults to borderSpaceTwoPanelLandscape
+        if not specified -->
+        <attr name="borderSpaceTwoPanelLandscapeVertical" format="float" />
+
+        <!-- These min cell values are only used if GridDisplayOption#isScalable is true -->
+        <!-- defaults to minCellHeight, if not specified -->
+        <attr name="allAppsCellHeight" format="float" />
+        <!-- defaults to minCellWidth, if not specified -->
+        <attr name="allAppsCellWidth" format="float" />
+        <!-- defaults to allAppsCellHeight, if not specified -->
+        <attr name="allAppsCellHeightLandscape" format="float" />
+        <!-- defaults to allAppsCellWidth, if not specified -->
+        <attr name="allAppsCellWidthLandscape" format="float" />
+        <!-- defaults to allAppsCellHeight, if not specified -->
+        <attr name="allAppsCellHeightTwoPanelPortrait" format="float" />
+        <!-- defaults to allAppsCellWidth, if not specified -->
+        <attr name="allAppsCellWidthTwoPanelPortrait" format="float" />
+        <!-- defaults to allAppsCellHeight, if not specified -->
+        <attr name="allAppsCellHeightTwoPanelLandscape" format="float" />
+        <!-- defaults to allAppsCellWidth, if not specified -->
+        <attr name="allAppsCellWidthTwoPanelLandscape" format="float" />
+        <!-- The following values are only enabled if grid is supported. -->
+        <!-- defaults to iconImageSize, if not specified -->
+        <attr name="allAppsIconSize" format="float" />
+        <!-- defaults to allAppsIconSize, if not specified -->
+        <attr name="allAppsIconSizeTwoPanelPortrait" format="float" />
+        <!-- defaults to allAppsIconSize, if not specified -->
+        <attr name="allAppsIconSizeTwoPanelLandscape" format="float" />
+        <!-- defaults to iconTextSize, if not specified -->
+        <attr name="allAppsIconTextSize" format="float" />
+        <!-- defaults to allAppsIconTextSize, if not specified -->
+        <attr name="allAppsIconTextSizeTwoPanelPortrait" format="float" />
+        <!-- defaults to allAppsIconTextSize, if not specified -->
+        <attr name="allAppsIconTextSizeTwoPanelLandscape" format="float" />
+
+        <!-- defaults to borderSpace, if not specified -->
+        <!-- space to be used horizontally and vertically -->
+        <attr name="allAppsBorderSpace" format="float" />
+        <!-- space to the right of the cell, defaults to allAppsBorderSpace if not specified -->
+        <attr name="allAppsBorderSpaceHorizontal" format="float" />
+        <!-- space below the cell, defaults to allAppsBorderSpace if not specified -->
+        <attr name="allAppsBorderSpaceVertical" format="float" />
+        <!-- space to be used horizontally and vertically,
+        defaults to allAppsBorderSpace if not specified -->
+        <attr name="allAppsBorderSpaceLandscape" format="float" />
+        <!-- space to the right of the cell, defaults to allAppsBorderSpaceLandscape
+        if not specified -->
+        <attr name="allAppsBorderSpaceLandscapeHorizontal" format="float" />
+        <!-- space below the cell, defaults to allAppsBorderSpaceLandscape if not specified -->
+        <attr name="allAppsBorderSpaceLandscapeVertical" format="float" />
+        <!-- space to be used horizontally and vertically in two panels,
+        defaults to allAppsBorderSpace if not specified -->
+        <attr name="allAppsBorderSpaceTwoPanelPortrait" format="float" />
+        <!-- space to the right of the cell in two panels, defaults to
+        allAppsBorderSpaceTwoPanelPortrait if not specified -->
+        <attr name="allAppsBorderSpaceTwoPanelPortraitHorizontal" format="float" />
+        <!-- space below the cell in two panels, defaults to allAppsBorderSpaceTwoPanelPortrait
+        if not specified -->
+        <attr name="allAppsBorderSpaceTwoPanelPortraitVertical" format="float" />
+        <!-- space to be used horizontally and vertically in two panels,
+        defaults to allAppsBorderSpace if not specified -->
+        <attr name="allAppsBorderSpaceTwoPanelLandscape" format="float" />
+        <!-- space to the right of the cell in two panels, defaults to
+        allAppsBorderSpaceTwoPanelLandscape if not specified -->
+        <attr name="allAppsBorderSpaceTwoPanelLandscapeHorizontal" format="float" />
+        <!-- space below the cell in two panels, defaults to allAppsBorderSpaceTwoPanelLandscape
+        if not specified -->
+        <attr name="allAppsBorderSpaceTwoPanelLandscapeVertical" format="float" />
+
+        <!-- defaults to borderSpaceDps, if not specified -->
+        <attr name="hotseatBorderSpace" format="float" />
+        <!-- defaults to hotseatBorderSpace, if not specified -->
+        <attr name="hotseatBorderSpaceLandscape" format="float" />
+        <!-- defaults to hotseatBorderSpace, if not specified -->
+        <attr name="hotseatBorderSpaceTwoPanelLandscape" format="float" />
+        <!-- defaults to hotseatBorderSpace, if not specified -->
+        <attr name="hotseatBorderSpaceTwoPanelPortrait" format="float" />
+
+        <attr name="iconImageSize" format="float" />
+        <!-- defaults to iconImageSize, if not specified -->
+        <attr name="iconSizeLandscape" format="float" />
+        <!-- defaults to iconSize, if not specified -->
+        <attr name="iconSizeTwoPanelPortrait" format="float" />
+        <!-- defaults to iconSize, if not specified -->
+        <attr name="iconSizeTwoPanelLandscape" format="float" />
+
+        <attr name="iconTextSize" format="float" />
+        <!-- defaults to iconTextSize, if not specified -->
+        <attr name="iconTextSizeLandscape" format="float" />
+        <!-- defaults to iconTextSize, if not specified -->
+        <attr name="iconTextSizeTwoPanelPortrait" format="float" />
+        <!-- defaults to iconTextSize, if not specified -->
+        <attr name="iconTextSizeTwoPanelLandscape" format="float" />
+
+        <!-- If set, this display option is used to determine the default grid -->
+        <attr name="canBeDefault" format="boolean" />
+
+        <!-- Margin on left and right of the workspace when GridDisplayOption#isScalable is true -->
+        <attr name="horizontalMargin" format="float"/>
+        <!-- defaults to horizontalMargin if not specified -->
+        <attr name="horizontalMarginLandscape" format="float"/>
+        <!-- defaults to horizontalMargin if not specified -->
+        <attr name="horizontalMarginTwoPanelLandscape" format="float"/>
+        <!-- defaults to horizontalMargin if not specified -->
+        <attr name="horizontalMarginTwoPanelPortrait" format="float"/>
+
+        <!-- By default all are false -->
+        <attr name="inlineQsb" format="integer" >
+            <!-- Enable on landscape only -->
+            <flag name="portrait" value="1" />
+            <!-- Enable on portrait only -->
+            <flag name="landscape" value="2" />
+            <!-- Enable on two panel portrait only -->
+            <flag name="twoPanelPortrait" value="4" />
+            <!-- Enable on two panel landscape only -->
+            <flag name="twoPanelLandscape" value="8" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CellLayout">
+        <attr name="containerType" format="integer">
+            <enum name="workspace" value="0" />
+            <enum name="hotseat" value="1" />
+            <enum name="folder" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ShadowDrawable">
+        <attr name="android:src" />
+        <attr name="android:shadowColor" />
+        <attr name="android:elevation" />
+        <attr name="darkTintColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="RecyclerViewFastScroller">
+        <attr name="canThumbDetach" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="LoggablePref">
+        <attr name="android:key" />
+        <attr name="android:defaultValue" />
+        <!-- Ground truth of this Pref integer can be found in StatsLogManager -->
+        <attr name="logIdOn" format="integer" />
+        <attr name="logIdOff" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="PreviewFragment">
+        <attr name="android:name" />
+        <attr name="android:id" />
+    </declare-styleable>
+
+    <declare-styleable name="WidgetsListRowHeader">
+        <attr name="appIconSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="WidgetSections">
+        <!-- Component name of an app widget provider. -->
+        <attr name="provider" format="string" />
+        <!-- If true, keep the app widget under its app listing in addition to the widget category
+             in the widget picker. Defaults to false if not specified. -->
+        <attr name="alsoKeepInApp" format="boolean" />
+        <!-- The category of an app widget provider. Defaults to -1 if not specified. -->
+        <attr name="category" format="integer" />
+        <!-- The title name of a widget category. -->
+        <attr name="sectionTitle" format="reference" />
+        <!-- The icon drawable of a widget category. -->
+        <attr name="sectionDrawable" format="reference" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* //device/apps/common/assets/res/any/colors.xml
+**
+** Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:androidprv="http://schemas.android.com/apk/prv/res/android">
+    <!-- The color tints to apply to the text and drag view when hovering
+         over the delete target or the info target -->
+    <color name="delete_target_hover_tint">#FFC1C1C1</color>
+    <color name="uninstall_target_hover_tint">#FFF0592B</color>
+
+    <color name="focused_background">#80c6c5c5</color>
+
+    <color name="default_shadow_color_no_alpha">#FF000000</color>
+
+    <color name="spring_loaded_panel_color">#40FFFFFF</color>
+    <color name="spring_loaded_highlighted_panel_border_color">#FFF</color>
+
+    <!-- Popup container -->
+    <color name="notification_icon_default_color">#757575</color> <!-- Gray 600 -->
+
+    <color name="icon_background">#E0E0E0</color> <!-- Gray 300 -->
+
+    <color name="popup_color_primary_light">#FFF</color>
+    <color name="popup_color_secondary_light">#F1F3F4</color>
+    <color name="popup_color_tertiary_light">#E0E0E0</color> <!-- Gray 300 -->
+    <color name="popup_color_neutral_dark">#3C4043</color> <!-- Gray 800 -->
+    <color name="popup_color_primary_dark">#3C4043</color> <!-- Gray 800 -->
+    <color name="popup_color_secondary_dark">#202124</color>
+    <color name="popup_color_tertiary_dark">#757575</color> <!-- Gray 600 -->
+
+    <color name="popup_shade_first_light">#F9F9F9</color>
+    <color name="popup_shade_second_light">#F1F1F1</color>
+    <color name="popup_shade_third_light">#E2E2E2</color>
+    <color name="popup_shade_first_dark">#303030</color>
+    <color name="popup_shade_second_dark">#262626</color>
+    <color name="popup_shade_third_dark">#1B1B1B</color>
+
+    <color name="popup_notification_dot_light">#FFF</color>
+    <color name="popup_notification_dot_dark">#757575</color>
+
+    <color name="workspace_text_color_light">#FFF</color>
+    <color name="workspace_text_color_dark">#FF000000</color>
+
+    <color name="folder_hint_text_color_light">#FFF</color>
+    <color name="folder_hint_text_color_dark">#FF000000</color>
+
+    <color name="folder_background_light">#F9F9F9</color>
+    <color name="folder_background_dark">#464746</color>
+
+    <color name="folder_preview_light">#F9F9F9</color>
+    <color name="folder_preview_dark">#464746</color>
+
+    <color name="folder_dot_color">?attr/colorPrimary</color>
+    <color name="folder_pagination_color_light">#ff006c5f</color>
+    <color name="folder_pagination_color_dark">#ffbfebe3</color>
+
+    <color name="text_color_primary_dark">#FFFFFFFF</color>
+    <color name="text_color_secondary_dark">#FFFFFFFF</color>
+    <color name="text_color_tertiary_dark">#CCFFFFFF</color>
+
+    <color name="wallpaper_popup_scrim">?android:attr/colorAccent</color>
+    <color name="wallpaper_scrim_color">#0D878787</color>
+
+    <color name="workspace_accent_color_light">#ff8df5e3</color>
+    <color name="workspace_accent_color_dark">#ff3d665f</color>
+
+    <color name="all_apps_button_bg_color">#F7F9FA</color>
+    <color name="all_apps_button_color_1">#00677E</color>
+    <color name="all_apps_button_color_2">#00677E</color>
+    <color name="all_apps_button_color_3">#5F757E</color>
+    <color name="all_apps_button_color_4">#005A6E</color>
+</resources>
