@@ -1,5 +1,30 @@
-include ':IconLoader'
-project(':IconLoader').projectDir = new File(rootDir, 'iconloaderlib')
+pluginManagement {
+    repositories {
+        maven { url = uri("https://maven.aliyun.com/repository/gradle-plugin") }
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
 
-include ':SharedLibWrapper'
-project(':SharedLibWrapper').projectDir = new File(rootDir, 'SharedLibWrapper')
+enableFeaturePreview("VERSION_CATALOGS")
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url = uri("https://maven.aliyun.com/repository/google") }
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
+        flatDir {
+            dirs("${rootDir}/libs")
+        }
+        google()
+        mavenCentral()
+    }
+}
+
+include ':iconloaderlib'
+include ':shared'
+include ':Shell'
+include ':plugin_core'
+include ':animation'

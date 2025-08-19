@@ -1,36 +1,45 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath GRADLE_CLASS_PATH
-        classpath PROTOBUF_CLASS_PATH
-    }
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.protobuf)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.android.library) apply false
 }
 
-final String ANDROID_TOP = "${rootDir}/../../.."
-final String FRAMEWORK_PREBUILTS_DIR = "${ANDROID_TOP}/prebuilts/framework_intermediates/"
-
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.protobuf'
-
 android {
-    compileSdkVersion COMPILE_SDK
-    buildToolsVersion BUILD_TOOLS_VERSION
+    compileSdk COMPILE_SDK.toInteger()
 
     defaultConfig {
-        minSdkVersion 26
-        targetSdkVersion 30
+        minSdk MIN_SDK_VERSION.toInteger()
+        targetSdk TARGET_SDK_VERSION.toInteger()
         versionCode 1
         versionName "1.0"
+        buildConfigField "boolean", "QSB_ON_FIRST_SCREEN", "true"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
+    signingConfigs {
+        platform {
+            storeFile file("platform.keystore")
+            storePassword '123456'
+            keyAlias 'platform'
+            keyPassword '123456'
+        }
+    }
+
     buildTypes {
-        debug {
+        release {
+            debuggable false
             minifyEnabled false
+            signingConfig signingConfigs.platform
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.platform
         }
     }
 
@@ -80,10 +89,11 @@ android {
             java.srcDirs = ['src', 'src_plugins']
             manifest.srcFile 'AndroidManifest-common.xml'
             proto {
-                srcDirs = ['protos/', 'protos_overrides/']
+                srcDirs = ['protos/']
             }
         }
 
+        /*
         androidTest {
             res.srcDirs = ['tests/res']
             java.srcDirs = ['tests/src', 'tests/tapl']
@@ -93,6 +103,7 @@ android {
         androidTestDebug {
             manifest.srcFile "tests/AndroidManifest.xml"
         }
+        */
 
         aosp {
             java.srcDirs = ['src_flags', 'src_shortcuts_overrides']
@@ -122,31 +133,48 @@ android {
 
         withoutQuickstep {
             java.srcDirs = ['src_ui_overrides']
+            proto.srcDirs = ['protos_overrides']
         }
 
         withQuickstep {
             res.srcDirs = ['quickstep/res', 'quickstep/recents_ui_overrides/res']
             java.srcDirs = ['quickstep/src', 'quickstep/recents_ui_overrides/src']
+            proto.srcDirs = ['quickstep/protos_overrides']
             manifest.srcFile "quickstep/AndroidManifest.xml"
         }
     }
-}
 
-allprojects {
-    repositories {
-        maven { url "../../../prebuilts/sdk/current/androidx/m2repository" }
-        maven { url "../../../prebuilts/fullsdk-darwin/extras/android/m2repository" }
-        maven { url "../../../prebuilts/fullsdk-linux/extras/android/m2repository" }
-        mavenCentral()
-        google()
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
 dependencies {
-    implementation "androidx.dynamicanimation:dynamicanimation:${ANDROID_X_VERSION}"
-    implementation "androidx.recyclerview:recyclerview:${ANDROID_X_VERSION}"
-    implementation "androidx.preference:preference:${ANDROID_X_VERSION}"
-    implementation project(':IconLoader')
+    compileOnly files('libs/framework.jar')
+    compileOnly files('libs/core-all.jar')
+    implementation files('libs/SystemUI-statsd.jar')
+
+    implementation(':dynamicanimation-1.1.0-alpha04@aar')
+    implementation libs.preference
+    implementation libs.constraintlayout
+    implementation libs.slice.core
+    implementation libs.recyclerview
+
+    implementation(libs.material, {
+        exclude group: 'androidx.dynamicanimation', module: 'dynamicanimation'
+    })
+    implementation libs.protobuf.javalite
+    implementation libs.javax.inject
+    implementation libs.lottie
+
+    implementation project(':iconloaderlib')
+    implementation project(':shared')
+    implementation project(':Shell')
+    implementation project(':plugin_core')
+    implementation project(':animation')
+
+    /*
     withQuickstepImplementation project(':SharedLibWrapper')
 
     // Recents lib dependency
@@ -154,6 +182,7 @@ dependencies {
 
     // Required for AOSP to compile. This is already included in the sysui_shared.jar
     withoutQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
+     */
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "org.mockito:mockito-core:1.9.5"
@@ -163,14 +192,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.0'
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestImplementation "androidx.annotation:annotation:${ANDROID_X_VERSION}"
-
-    api 'com.airbnb.android:lottie:3.3.0'
 }
 
 protobuf {
-    // Configure the protoc executable
     protoc {
-        artifact = "com.google.protobuf:protoc:${protocVersion}${PROTO_ARCH_SUFFIX}"
+        artifact = libs.protoc.get()
     }
     generateProtoTasks {
         all().each { task ->
@@ -180,6 +206,18 @@ protobuf {
                     option "lite"
                 }
             }
+        }
+    }
+}
+
+allprojects {
+    tasks.withType(JavaCompile).configureEach { task ->
+        task.doFirst {
+            def originalClasspath = options.bootstrapClasspath ?: files()
+            options.bootstrapClasspath = files(
+                    file("${rootDir}/libs/framework.jar"),
+                    file("${rootDir}/libs/core-all.jar")
+            ).plus(originalClasspath)
         }
     }
 }
