@@ -1,46 +1,46 @@
-# English | [中文文档](README.cn.md)
+# [English](README.md) | 中文文档
 ## Launcher3 from android-12.1.0_r11
-### Building Launcher3 outside AOSP source in Android Studio
-##### For support of different Android versions, please switch to the corresponding branch
-### Support Notes
-* Although Google added Gradle support to Launcher3 early on, since Android 12, they have stopped maintaining it. The related script code is no longer well maintained. We have tried to start fresh and made corrections to the related code so that it can be compiled separately in Android Studio.
+### Launcher3脱离源码在Android Studio的编译
+##### 不同安卓版本的支持请切换到对应的分支
+### 支持说明
+Google虽然很早就对Launcher3添加了Gradle支持，但是自从Android 12之后，开始撂挑子了，相关脚本代码已经不怎么维护，于是我们试着重新出发，对相关代码做修正，使其可以通过Android Studio进行单独编译。
 
 
-## Building with Command Line
-### Environment Requirements
+## 使用命令编译
+### 环境依赖
 *  Gradle 7.3.3
 *  JDK version 11
 
 ```
-# Setup build environment
+# 构建环境
 gradle wrapper
 
-# Build and package
+# 打包编译
 ./gradlew assemble
 ```
 
-## Building in Android Studio
-### Recommended
+## 在Android Studio上编译
+### 推荐使用
 *  Android Studio Koala & JDK version 11
 
-#### Execute Build APK in Android Studio, then push the apk to the Launcher3 directory on the device
+
+### 执行Android Studio上Build APK的操作, 然后将apk推送到设备上Launcher3所在的目录
 
 ```
 adb push Launcher3QuickStep.apk /system_ext/priv-app/Launcher3QuickStep/
 
 adb shell killall com.android.launcher3
 ```
-### PS: The first push may not start properly, you need to reboot the device.
+#####  首次推送会起不来，需要重启一下设备
 ```
 adb reboot
 ```
 
-### PS: Other Flavors versions are also supported
+######  另外也支持打包出其他的Flavors版本
 
+## 构建步骤
 
-## Build Steps
-
-### Step 1: Add Static Dependencies
+### Step1：引入静态依赖
 ##### @framework.jar:
 ```
 // android-12/out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/classes-header.jar
@@ -96,14 +96,14 @@ implementation(name: 'dynamicanimation-1.1.0-alpha04', ext: 'aar')
 ![avatar](images/dynamicanimation-1.1.0-alpha04.png)
 
 
-### PS: androidx.dynamicanimation cannot be easily referenced in the following way, so we use a static package instead
+###### ps: androidx.dynamicanimation 不容易通过以下方式去引用，故换成静态
 ```
 ## implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha04'
 ```
 
 
-### Step 2: Add Module
-##### Import the code from the specific path directly into the project as a Module dependency. You can reference it directly through implementation project during build, or you can use gradle build to generate an aar and place it in the libs folder.
+### Step2：引入Module
+###### 将具体路径下的代码直接导入到项目中作为Module依赖, 构建的时候可以直接通过implementation project引用，或者也可以gradle build生成aar,再放置到libs文件夹中，作为静态包使用。
 
 ##### @iconloaderlib: 
 ```
@@ -138,16 +138,16 @@ implementation project(':shared')
 
 
 
-## Generate platform.keystore Default Signature
+## 生成platform.keystore默认签名
 
-Find the signing certificates in the android-12/build/target/product/security path and use [keytool-importkeypair](https://github.com/getfatday/keytool-importkeypair) to generate the keystore.
-Execute the following command:  
+在AOSP/android-12/build/target/product/security路径下找到签名证书，并使用 [keytool-importkeypair](https://github.com/getfatday/keytool-importkeypair) 生成keystore,
+执行如下命令：
 
 ```
 ./keytool-importkeypair -k platform.keystore -p 123456 -pk8 platform.pk8 -cert platform.x509.pem -alias platform
 ```
 
-And add the following code to the gradle configuration:
+并将以下代码添加到gradle配置中：
 
 ```
     signingConfigs {
@@ -174,9 +174,7 @@ And add the following code to the gradle configuration:
     }
 ```
 
----
-
-### Related Projects
+### 关联项目
 * [Settings](https://github.com/siren-ocean/Settings)
 * [Launcher3](https://github.com/siren-ocean/Launcher3)
 * [DocumentsUI](https://github.com/siren-ocean/DocumentsUI)
