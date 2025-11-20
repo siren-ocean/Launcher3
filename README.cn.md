@@ -1,12 +1,12 @@
-# English | [中文文档](README.cn.md)
+# [English](README.md) | 中文文档
 ## Launcher3 from android-11.0.0_r38
-### Building Launcher3 outside AOSP source in Android Studio
+### Launcher3脱离源码在Android Studio的编译
 
-#### Since Android 11, SystemUI removed the recents task functionality, and the related work has been implemented by Launcher3's quickstep. This document records the configuration work for the entire Launcher3 project in Android Studio.
+#### 由于Android11之后，SystemUI删除了多任务键功能，相关的工作已经由Launcher3的quickstep来实现，所以记录下Launcher3的整个项目在Android Studio上的配置工作。
 
-### Support Notes
-* Instead of changing the project's directory structure, we add additional configurations and dependencies to build Gradle environment support
-* Only one change was made: commented out a deprecated code section to make the project runnable. All other content remains the same as the original repository
+### 支持说明
+* 添加额外的配置和依赖构建Gradle环境支持
+* 仅改动一个地方，即注释了一处废弃代码，使项目可以被运行起来，其他内容将和原始仓库一样保持不变
 
 
 ```
@@ -23,47 +23,46 @@
 
 ```
 
-## Building with Command Line
-### Environment Requirements
+## 使用命令编译
+### 环境依赖
 *  Gradle 6.5
 *  JDK version >= 8
 
 ```
-# Setup build environment
+# 构建环境
 gradle wrapper
 
-# Build and package
+# 打包编译
 ./gradlew assemble
 ```
 
 
-## Building in Android Studio
+## 使用Android Studio编译
 
-#### Execute Build APK in Android Studio, then push the apk to the Launcher3 directory on the device
+### 执行Android Studio上Build APK的操作, 然后将apk推送到设备上Launcher3所在的目录
 
 ```
 adb push Launcher3QuickStep.apk /system/system_ext/priv-app/Launcher3QuickStep/Launcher3QuickStep.apk
 
 adb shell killall com.android.launcher3
 ```
-### PS: The first push may not start properly, you need to reboot the device.
+######  首次推送会起不来，需要重启一下设备
 ```
 adb reboot
 ```
 
-### PS: You can also install directly
+######  也可以直接安装
 ```
 adb install Launcher3QuickStep.apk
 
 ```
 
-### PS: Other Flavors versions are also supported
+######  另外也支持打包出其他的Flavors版本
 
 
-## Build Steps
+## 构建步骤
 
-### Step 1: Add Static Dependencies
-
+### Step1：引入静态依赖
 ##### @framework.jar:
 ```
 // AOSP/android-11/out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/classes-header.jar
@@ -107,8 +106,8 @@ implementation files("libs/SystemUISharedLib.jar")
 ![avatar](images/SystemUISharedLib.png)
 
 
-### Step 2: Add Module
-##### Import the code from the specific path directly into the project as a Module dependency. You can reference it directly through implementation project during build, or you can use gradle build to generate an aar and place it in the libs folder as a static package.
+### Step2：引入Module
+##### 将具体路径下的代码直接导入到项目中作为Module依赖, 构建的时候可以直接通过implementation project引用，或者也可以gradle build生成aar,再放置到libs文件夹中，作为静态包使用。
 
 ##### @iconloaderlib: 
 ```
@@ -118,16 +117,15 @@ implementation project(':IconLoader')
 ![avatar](images/iconloaderlib.png)
 
 
-## Generate testkey.keystore Default Signature
+## 生成签名
 
-Find the signing certificates in the AOSP/android-11/build/target/product/security path and use [keytool-importkeypair](https://github.com/getfatday/keytool-importkeypair) to generate the keystore.
-Execute the following command:  
+在AOSP/android-11/build/target/product/security目录下，使用 [keytool-importkeypair](https://github.com/getfatday/keytool-importkeypair) 生成keystore
 
 ```
 ./keytool-importkeypair -k testkey.keystore -p 123456 -pk8 testkey.pk8 -cert testkey.x509.pem -alias testkey  
 ```
 
-And add the following code to the gradle configuration:
+将以下代码添加到gradle配置：
 
 ```
     signingConfigs {
@@ -149,7 +147,7 @@ And add the following code to the gradle configuration:
 
 ---
 
-### Related Projects
+### 关联项目
 * [Settings](https://github.com/siren-ocean/Settings)
 * [SystemUI](https://github.com/siren-ocean/SystemUI)
 * [Launcher3](https://github.com/siren-ocean/Launcher3)
