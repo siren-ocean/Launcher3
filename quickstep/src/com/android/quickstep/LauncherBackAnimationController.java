@@ -143,7 +143,7 @@ public class LauncherBackAnimationController {
         mWindowScaleMarginX = mLauncher.getResources().getDimensionPixelSize(
                 R.dimen.swipe_back_window_scale_x_margin);
         mCancelInterpolator =
-                AnimationUtils.loadInterpolator(mLauncher, R.interpolator.standard_interpolator);
+                AnimationUtils.loadInterpolator(mLauncher, com.android.app.animation.R.interpolator.standard_interpolator);
     }
 
     /**

@@ -33,7 +33,7 @@ interface UnfoldTransitionProgressProvider : CallbackController<TransitionProgre
 
     fun destroy()
 
-    interface TransitionProgressListener {
+    public interface TransitionProgressListener {
         /** Called when transition is started */
         fun onTransitionStarted() {}
 

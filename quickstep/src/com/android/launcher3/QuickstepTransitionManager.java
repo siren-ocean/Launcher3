@@ -172,6 +172,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Manages the opening and closing app transitions from Launcher
@@ -295,7 +296,7 @@ public class QuickstepTransitionManager implements OnDeviceProfileChangeListener
         if (ENABLE_SHELL_STARTING_SURFACE) {
             mTaskStartParams = new LinkedHashMap<>(MAX_NUM_TASKS) {
                 @Override
-                protected boolean removeEldestEntry(Entry<Integer, Pair<Integer, Integer>> entry) {
+                protected boolean removeEldestEntry(Map.Entry<Integer, Pair<Integer, Integer>> entry) {
                     return size() > MAX_NUM_TASKS;
                 }
             };
@@ -306,7 +307,7 @@ public class QuickstepTransitionManager implements OnDeviceProfileChangeListener
 
         mOpeningXInterpolator = AnimationUtils.loadInterpolator(context, R.interpolator.app_open_x);
         mOpeningInterpolator = AnimationUtils.loadInterpolator(context,
-                R.interpolator.emphasized_interpolator);
+                com.android.app.animation.R.interpolator.emphasized_interpolator);
         mCoordinateTransfer = new RemoteAnimationCoordinateTransfer(mLauncher);
     }
 

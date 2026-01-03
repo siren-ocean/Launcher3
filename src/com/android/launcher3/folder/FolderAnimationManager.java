@@ -105,11 +105,11 @@ public class FolderAnimationManager {
         mDelay = res.getInteger(R.integer.config_folderDelay);
 
         mFolderInterpolator = AnimationUtils.loadInterpolator(mContext,
-                R.interpolator.standard_interpolator);
+                com.android.app.animation.R.interpolator.standard_interpolator);
         mLargeFolderPreviewItemOpenInterpolator = AnimationUtils.loadInterpolator(mContext,
                 R.interpolator.large_folder_preview_item_open_interpolator);
         mLargeFolderPreviewItemCloseInterpolator = AnimationUtils.loadInterpolator(mContext,
-                R.interpolator.standard_accelerate_interpolator);
+                com.android.app.animation.R.interpolator.standard_accelerate_interpolator);
     }
 
     /**

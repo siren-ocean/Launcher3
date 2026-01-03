@@ -218,6 +218,10 @@ public class LauncherUnfoldAnimationController implements OnDeviceProfileChangeL
                 mQsbInsettable.setHorizontalInsets(insetPercentage);
             }
         }
+
+        @Override
+        public void onTransitionFinishing() {
+        }
     }
 
     private class LauncherScaleAnimationListener implements TransitionProgressListener {
@@ -242,6 +246,10 @@ public class LauncherUnfoldAnimationController implements OnDeviceProfileChangeL
         private void setScale(float value) {
             WORKSPACE_SCALE_PROPERTY.setValue(mLauncher.getWorkspace(), value);
             HOTSEAT_SCALE_PROPERTY.setValue(mLauncher.getHotseat(), value);
+        }
+
+        @Override
+        public void onTransitionFinishing() {
         }
     }
 
@@ -286,6 +294,10 @@ public class LauncherUnfoldAnimationController implements OnDeviceProfileChangeL
 
         private void markAsRun() {
             mHasRun = true;
+        }
+
+        @Override
+        public void onTransitionFinishing() {
         }
     }
 }

@@ -112,5 +112,9 @@ public class TaskbarUnfoldAnimationController implements
             float insetPercentage = (1 - progress) * MAX_WIDTH_INSET_FRACTION;
             mTaskbarDragLayerController.setBackgroundHorizontalInsets(insetPercentage);
         }
+
+        @Override
+        public void onTransitionFinishing() {
+        }
     }
 }
