@@ -1,0 +1,59 @@
+[versions]
+agp = "8.2.2"
+kotlin = "1.9.22"
+protobuf-plugin = "0.9.1"
+kotlinx-coroutines = "1.9.0"
+recyclerview = "1.2.1"
+appcompat = "1.7.0"
+lifecycle = "2.8.0-alpha02"
+constraintlayout = "2.2.0-alpha13"
+slice = "1.1.0-alpha02"
+window = "1.5.0-alpha01"
+material = "1.7.0-alpha03"
+lottie = "6.0.0"
+errorprone = "2.18.0"
+core = "1.13.0"
+dagger = "2.50"
+concurrent = "1.2.0-alpha01"
+dynamicanimation = "1.1.0"
+preference = "1.2.1"
+javax-inject = "1"
+core-runtime = "2.2.0"
+core-animation = "1.0.0"
+protobuf-lite = "3.0.0"
+protoc = "3.25.1"
+
+[libraries]
+recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+slice-core = { module = "androidx.slice:slice-core", version.ref = "slice" }
+window = { module = "androidx.window:window", version.ref = "window" }
+core = { module = "androidx.core:core", version.ref = "core" }
+core-animation = { module = "androidx.core:core-animation", version.ref = "core-animation" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+errorprone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorprone" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+concurrent-futures = { module = "androidx.concurrent:concurrent-futures", version.ref = "concurrent" }
+dynamicanimation = { module = "androidx.dynamicanimation:dynamicanimation", version.ref = "dynamicanimation" }
+preference = { module = "androidx.preference:preference", version.ref = "preference" }
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
+core-runtime = { module = "androidx.arch.core:core-runtime", version.ref = "core-runtime" }
+protobuf-lite = { module = "com.google.protobuf:protobuf-lite", version.ref = "protobuf-lite" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protoc" }
+
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx_coroutines_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+
+dagger-android = { module = "com.google.dagger:dagger-android", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf-plugin" }

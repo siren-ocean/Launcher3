@@ -1,42 +1,42 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-    dependencies {
-        classpath GRADLE_CLASS_PATH
-        classpath PROTOBUF_CLASS_PATH
-    }
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.protobuf)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.android.library) apply false
 }
 
-final String ANDROID_TOP = "${rootDir}/../../.."
-final String FRAMEWORK_PREBUILTS_DIR = "${ANDROID_TOP}/prebuilts/framework_intermediates/"
-
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.protobuf'
-
 android {
-    compileSdkVersion COMPILE_SDK
-    buildToolsVersion BUILD_TOOLS_VERSION
-
+    namespace "com.android.launcher3"
     defaultConfig {
-        minSdkVersion 30
-        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-    buildTypes {
-        debug {
-            minifyEnabled false
+
+    signingConfigs {
+        platform {
+            storeFile file("platform.keystore")
+            storePassword '123456'
+            keyAlias 'platform'
+            keyPassword '123456'
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            signingConfig signingConfigs.platform
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.platform
+        }
     }
 
     // The flavor dimensions for build variants (e.g. aospWithQuickstep, aospWithoutQuickstep)
@@ -67,23 +67,17 @@ android {
         }
     }
 
-    // Disable release builds for now
-    android.variantFilter { variant ->
-        if (variant.buildType.name.endsWith('release')) {
-            variant.setIgnore(true)
-        }
-    }
-
     sourceSets {
         main {
             res.srcDirs = ['res']
-            java.srcDirs = ['src', 'src_plugins']
+            java.srcDirs = ['src', 'src_plugins', 'src_build_config']
             manifest.srcFile 'AndroidManifest-common.xml'
             proto {
-                srcDirs = ['protos/', 'protos_overrides/']
+                srcDirs = ['protos/']
             }
         }
 
+        /*
         androidTest {
             res.srcDirs = ['tests/res']
             java.srcDirs = ['tests/src', 'tests/tapl']
@@ -93,6 +87,7 @@ android {
         androidTestDebug {
             manifest.srcFile "tests/AndroidManifest.xml"
         }
+        */
 
         aosp {
             java.srcDirs = ['src_flags', 'src_shortcuts_overrides']
@@ -122,27 +117,57 @@ android {
 
         withoutQuickstep {
             java.srcDirs = ['src_ui_overrides']
+            proto.srcDirs = ['protos_overrides']
         }
 
         withQuickstep {
             res.srcDirs = ['quickstep/res', 'quickstep/recents_ui_overrides/res']
             java.srcDirs = ['quickstep/src', 'quickstep/recents_ui_overrides/src']
+            proto.srcDirs = ['quickstep/protos_overrides']
             manifest.srcFile "quickstep/AndroidManifest.xml"
         }
     }
-}
 
-allprojects {
-    repositories {
-        maven { url "../../../prebuilts/sdk/current/androidx/m2repository" }
-        maven { url "../../../prebuilts/fullsdk-darwin/extras/android/m2repository" }
-        maven { url "../../../prebuilts/fullsdk-linux/extras/android/m2repository" }
-        mavenCentral()
-        google()
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
 dependencies {
+    compileOnly files('libs/framework.jar')
+    compileOnly files('libs/core-all.jar')
+
+    implementation files('libs/SystemUI-statsd.jar')
+    implementation files('libs/WindowManager-Shell-shared.jar')
+    implementation files('libs/launcher-testing-shared.jar')
+    implementation files('libs/com_android_launcher3_flags_lib.jar')
+    implementation files('libs/com_android_wm_shell_flags_lib.jar')
+
+    implementation project(':iconloaderlib')
+    implementation project(':viewcapturelib')
+    implementation project(':animationlib')
+    implementation project(':animation')
+    implementation project(':shared')
+    implementation project(':Shell')
+    implementation project(':plugin_core')
+    implementation project(':unfold')
+    implementation project(':SettingsTheme')
+
+    implementation libs.appcompat
+    implementation libs.dynamicanimation
+    implementation libs.preference
+    implementation libs.constraintlayout
+    implementation libs.slice.core
+    implementation libs.recyclerview
+
+    implementation libs.material
+    implementation libs.protobuf.lite
+    implementation libs.javax.inject
+    implementation libs.lottie
+    implementation libs.window
+
+    /*
     implementation "androidx.dynamicanimation:dynamicanimation:${ANDROID_X_VERSION}"
     implementation "androidx.recyclerview:recyclerview:${ANDROID_X_VERSION}"
     implementation "androidx.preference:preference:${ANDROID_X_VERSION}"
@@ -168,20 +193,85 @@ dependencies {
     androidTestImplementation "androidx.annotation:annotation:${ANDROID_X_VERSION}"
 
     api 'com.airbnb.android:lottie:3.3.0'
+     */
 }
 
 protobuf {
     // Configure the protoc executable
     protoc {
-        artifact = "com.google.protobuf:protoc:${protocVersion}${PROTO_ARCH_SUFFIX}"
+        artifact = libs.protoc.get()
+    }
+    // Configure the javalite plugin
+    plugins {
+        javalite {
+            artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
+        }
     }
     generateProtoTasks {
         all().each { task ->
             task.builtins {
                 remove java
-                java {
-                    option "lite"
-                }
+            }
+            task.plugins {
+                javalite {}
+            }
+        }
+    }
+}
+
+allprojects { project ->
+    project.plugins.withId("com.android.library") {
+        applyReorderRule(project)
+        applyDefaultConfig(project)
+    }
+    project.plugins.withId("com.android.application") {
+        applyReorderRule(project)
+        applyDefaultConfig(project)
+    }
+}
+
+def applyReorderRule(Project project) {
+    project.gradle.projectsEvaluated {
+        // 匹配所有 Java 编译任务，包括带 productFlavors 的任务
+        project.tasks.matching { it.name.matches(/compile.*JavaWithJavac/) }.configureEach { task ->
+            task.doFirst {
+                task.classpath = reorderClasspath(task.classpath.files)
+            }
+        }
+    }
+}
+
+def reorderClasspath(Set<File> classpathSet) {
+    def androidJar = classpathSet.find { it.name == "android.jar" }
+    def others = classpathSet - (androidJar ? [androidJar] : [])
+    return files((others + (androidJar ?: [])).toArray())
+}
+
+def applyDefaultConfig(Project project) {
+    project.android {
+        compileSdk COMPILE_SDK.toInteger()
+
+        defaultConfig {
+            minSdk MIN_SDK_VERSION.toInteger()
+            targetSdk TARGET_SDK_VERSION.toInteger()
+        }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+        }
+    }
+}
+
+allprojects {
+    tasks.withType(JavaCompile).configureEach { task ->
+        task.doFirst {
+            // 排除 Filter 模块
+            if (!task.project.path.contains(":Filter")) {
+                // 替换java.base
+                options.compilerArgs += ["--patch-module", "java.base=${rootDir}/libs/core-all.jar"]
+                // 允许访问 java.lang.runtime 包（Java record 需要）
+                options.compilerArgs += ["--add-exports", "java.base/java.lang.runtime=ALL-UNNAMED"]
             }
         }
     }
