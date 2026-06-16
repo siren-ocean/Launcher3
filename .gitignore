@@ -15,5 +15,4 @@ build/
 .gradle
 gradlew*
 .DS_Store
-Shell/framework-aidl
 Filter/build
